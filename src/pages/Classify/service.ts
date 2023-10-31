@@ -29,7 +29,10 @@ export async function classifies(
 }
 
 /** 更新分类 PUT /api/rule */
-export async function updateClassify(data: { [key: string]: any }, options?: { [key: string]: any }) {
+export async function updateClassify(
+  data: { [key: string]: any },
+  options?: { [key: string]: any },
+) {
   return request<TableListItem>('/api/funds_record_classify', {
     data,
     method: 'PUT',

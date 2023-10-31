@@ -1,14 +1,14 @@
-import { PlusOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
-import { Button, message, Input } from 'antd';
-import React, { useState, useRef } from 'react';
-import { PageContainer } from '@ant-design/pro-layout';
-import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
+import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import { PageContainer } from '@ant-design/pro-layout';
+import type { ActionType, ProColumns } from '@ant-design/pro-table';
+import ProTable from '@ant-design/pro-table';
+import { Button, message } from 'antd';
+import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
-import { classifies, addClassify, updateClassify, removeClassify } from './service';
 import type { TableListItem, TableListPagination } from './data.d';
+import { addClassify, classifies, removeClassify, updateClassify } from './service';
 
 /**
  * 添加节点
@@ -84,7 +84,6 @@ const TableList: React.FC = () => {
   /** 分布更新窗口的弹窗 */
 
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-  const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<TableListItem>();
   /** 国际化配置 */
@@ -93,11 +92,14 @@ const TableList: React.FC = () => {
     {
       title: '名称',
       dataIndex: 'classifyName',
+      width: '20%',
     },
     {
       title: '类型',
       dataIndex: 'classifyType',
       hideInForm: true,
+      width: '20%',
+      search: false,
       valueEnum: {
         0: {
           text: '支出',
@@ -112,15 +114,21 @@ const TableList: React.FC = () => {
     {
       title: '描述',
       dataIndex: 'classifyDescribe',
+      search: false,
+      width: '20%',
     },
     {
       title: '创建时间',
       sorter: true,
+      search: false,
       dataIndex: 'createTime',
       valueType: 'dateTime',
+
+      width: '30%',
     },
     {
       title: '操作',
+      search: false,
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
@@ -150,14 +158,14 @@ const TableList: React.FC = () => {
       <ProTable<TableListItem, TableListPagination>
         // headerTitle='查询表格'
         actionRef={actionRef}
-        rowKey='key'
+        rowKey="key"
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
           <Button
-            type='primary'
-            key='primary'
+            type="primary"
+            key="primary"
             onClick={() => {
               handleModalVisible(true);
             }}
@@ -167,10 +175,11 @@ const TableList: React.FC = () => {
         ]}
         request={classifies}
         columns={columns}
+        options={{ density: false, setting: false, reload: false }}
       />
       <ModalForm
-        title='新建规则'
-        width='400px'
+        title="新建规则"
+        width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
         onFinish={async (value) => {
@@ -190,10 +199,10 @@ const TableList: React.FC = () => {
               message: '规则名称为必填项',
             },
           ]}
-          width='md'
-          name='name'
+          width="md"
+          name="name"
         />
-        <ProFormTextArea width='md' name='desc' />
+        <ProFormTextArea width="md" name="desc" />
       </ModalForm>
       <UpdateForm
         onSubmit={async (value) => {
