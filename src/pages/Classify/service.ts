@@ -33,7 +33,7 @@ export async function updateClassify(
   data: { [key: string]: any },
   options?: { [key: string]: any },
 ) {
-  return request<TableListItem>('/api/funds_record_classify', {
+  return request<TableListItem>('/api/funds_record_classify/' + data.classifyId, {
     data,
     method: 'PUT',
     ...(options || {}),
