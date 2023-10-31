@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
 import { Button, message, Input, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
@@ -168,18 +168,27 @@ const TableList: React.FC = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
-        <a
-          key='config'
-          onClick={() => {
-            handleUpdateModalVisible(true);
-            setCurrentRow(record);
+        <Button
+          onClick={async () => {
+            await handleRemove(selectedRowsState);
+            setSelectedRows([]);
+            actionRef.current?.reloadAndRest?.();
           }}
+          style={{ border: 'none' }}
+          icon={<DeleteFilled style={{ color: 'red' }} />}
+          shape={'circle'}
+        />,
+        <Button
+          onClick={async () => {
+            await handleRemove(selectedRowsState);
+            setSelectedRows([]);
+            actionRef.current?.reloadAndRest?.();
+          }}
+          shape={'circle'}
+          style={{ border: 'none' }}
+          icon={<EditFilled style={{ color: '#4E89FF' }} />}
         >
-          配置
-        </a>,
-        <a key='subscribeAlert' href='https://procomponents.ant.design/'>
-          订阅警报
-        </a>,
+        </Button>,
       ],
     },
   ];
@@ -187,7 +196,7 @@ const TableList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<TableListItem, TableListPagination>
-        headerTitle='查询表格'
+        // headerTitle='查询表格'
         actionRef={actionRef}
         rowKey='key'
         search={{
@@ -206,11 +215,6 @@ const TableList: React.FC = () => {
         ]}
         request={rule}
         columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => {
-            setSelectedRows(selectedRows);
-          },
-        }}
       />
       {selectedRowsState?.length > 0 && (
         <FooterToolbar
