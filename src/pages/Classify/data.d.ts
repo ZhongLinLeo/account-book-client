@@ -1,22 +1,15 @@
 export type TableListItem = {
-  key: number;
-  disabled?: boolean;
-  href: string;
-  avatar: string;
-  name: string;
-  owner: string;
-  desc: string;
-  callNo: number;
-  status: string;
-  updatedAt: Date;
-  createdAt: Date;
-  progress: number;
+  classifyId: string;
+  classifyName: string;
+  classifyType: number;
+  classifyDescribe: string;
+  createTime: Date;
 };
 
 export type TableListPagination = {
-  total: number;
+  totalSize: number;
   pageSize: number;
-  current: number;
+  pageNumber: number;
 };
 
 export type TableListData = {

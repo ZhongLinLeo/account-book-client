@@ -1,15 +1,13 @@
 import { PlusOutlined, EditFilled, DeleteFilled } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
+import { Button, message, Input } from 'antd';
 import React, { useState, useRef } from 'react';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-layout';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
 import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import ProDescriptions from '@ant-design/pro-descriptions';
 import type { FormValueType } from './components/UpdateForm';
 import UpdateForm from './components/UpdateForm';
-import { rule, addRule, updateRule, removeRule } from './service';
+import { classifies, addClassify, updateClassify, removeClassify } from './service';
 import type { TableListItem, TableListPagination } from './data.d';
 
 /**
@@ -22,7 +20,7 @@ const handleAdd = async (fields: TableListItem) => {
   const hide = message.loading('正在添加');
 
   try {
-    await addRule({ ...fields });
+    await addClassify({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -42,7 +40,7 @@ const handleUpdate = async (fields: FormValueType, currentRow?: TableListItem) =
   const hide = message.loading('正在配置');
 
   try {
-    await updateRule({
+    await updateClassify({
       ...currentRow,
       ...fields,
     });
@@ -67,8 +65,8 @@ const handleRemove = async (record: TableListItem) => {
 
   console.log(record);
   try {
-    await removeRule({
-      key: record.key,
+    await removeClassify({
+      key: record.classifyId,
     });
     hide();
     message.success('删除成功，即将刷新');
@@ -93,81 +91,47 @@ const TableList: React.FC = () => {
 
   const columns: ProColumns<TableListItem>[] = [
     {
-      title: '规则名称',
-      dataIndex: 'name',
-      tip: '规则名称是唯一的 key',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
+      title: '名称',
+      dataIndex: 'classifyName',
+    },
+    {
+      title: '类型',
+      dataIndex: 'classifyType',
+      hideInForm: true,
+      valueEnum: {
+        0: {
+          text: '支出',
+          status: 'Error',
+        },
+        1: {
+          text: '收入',
+          status: 'Success',
+        },
       },
     },
     {
       title: '描述',
-      dataIndex: 'desc',
-      valueType: 'textarea',
+      dataIndex: 'classifyDescribe',
     },
     {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
+      title: '创建时间',
       sorter: true,
-      hideInForm: true,
-      renderText: (val: string) => `${val}万`,
-    },
-    {
-      title: '状态',
-      dataIndex: 'status',
-      hideInForm: true,
-      valueEnum: {
-        0: {
-          text: '关闭',
-          status: 'Default',
-        },
-        1: {
-          text: '运行中',
-          status: 'Processing',
-        },
-        2: {
-          text: '已上线',
-          status: 'Success',
-        },
-        3: {
-          text: '异常',
-          status: 'Error',
-        },
-      },
-    },
-    {
-      title: '上次调度时间',
-      sorter: true,
-      dataIndex: 'updatedAt',
+      dataIndex: 'createTime',
       valueType: 'dateTime',
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        const status = form.getFieldValue('status');
-
-        if (`${status}` === '0') {
-          return false;
-        }
-
-        if (`${status}` === '3') {
-          return <Input {...rest} placeholder='请输入异常原因！' />;
-        }
-
-        return defaultRender(item);
-      },
     },
     {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
+        <Button
+          onClick={() => {
+            handleUpdateModalVisible(true);
+          }}
+          shape={'circle'}
+          style={{ border: 'none' }}
+          icon={<EditFilled style={{ color: '#4E89FF' }} />}
+        />,
         <Button
           onClick={async () => {
             await handleRemove(record);
@@ -177,16 +141,6 @@ const TableList: React.FC = () => {
           icon={<DeleteFilled style={{ color: 'red' }} />}
           shape={'circle'}
         />,
-        <Button
-          onClick={async () => {
-            await handleRemove(record);
-            actionRef.current?.reloadAndRest?.();
-          }}
-          shape={'circle'}
-          style={{ border: 'none' }}
-          icon={<EditFilled style={{ color: '#4E89FF' }} />}
-        >
-        </Button>,
       ],
     },
   ];
@@ -211,7 +165,7 @@ const TableList: React.FC = () => {
             <PlusOutlined /> 新建
           </Button>,
         ]}
-        request={rule}
+        request={classifies}
         columns={columns}
       />
       <ModalForm

@@ -3,12 +3,12 @@
 import { request } from 'umi';
 import { TableListItem } from './data';
 
-/** 获取规则列表 GET /api/rule */
-export async function rule(
+/** 获取分类列表 GET /funds_record_classify/pagination */
+export async function classifies(
   params: {
     // query
     /** 当前的页码 */
-    current?: number;
+    pageNumber?: number;
     /** 页面的容量 */
     pageSize?: number;
   },
@@ -19,7 +19,7 @@ export async function rule(
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;
-  }>('/api/rule', {
+  }>('/api/funds_record_classify/pagination', {
     method: 'GET',
     params: {
       ...params,
@@ -28,28 +28,27 @@ export async function rule(
   });
 }
 
-/** 新建规则 PUT /api/rule */
-export async function updateRule(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/rule', {
+/** 更新分类 PUT /api/rule */
+export async function updateClassify(data: { [key: string]: any }, options?: { [key: string]: any }) {
+  return request<TableListItem>('/api/funds_record_classify', {
     data,
     method: 'PUT',
     ...(options || {}),
   });
 }
 
-/** 新建规则 POST /api/rule */
-export async function addRule(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/rule', {
+/** 新建分类 POST /api/rule */
+export async function addClassify(data: { [key: string]: any }, options?: { [key: string]: any }) {
+  return request<TableListItem>('/api/funds_record_classify', {
     data,
     method: 'POST',
     ...(options || {}),
   });
 }
 
-/** 删除规则 DELETE /api/rule */
-export async function removeRule(data: { key: number[] }, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/rule', {
-    data,
+/** 删除分类 DELETE /api/rule */
+export async function removeClassify(data: { key: number }, options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/api/funds_record_classify/' + data.key, {
     method: 'DELETE',
     ...(options || {}),
   });
