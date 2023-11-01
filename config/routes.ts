@@ -35,6 +35,12 @@ export default [
     ],
   },
   {
+    name: '账户信息',
+    icon: 'tags',
+    path: '/financialAccount',
+    component: './FinancialAccount',
+  },
+  {
     name: '分类信息',
     icon: 'tags',
     path: '/classify',
