@@ -7,13 +7,16 @@ import {
   ProFormSwitch,
   ProList,
 } from '@ant-design/pro-components';
-import { Button, message, Tag, Progress } from 'antd';
+import { Button, message, Card, List, Typography } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateClassifyForm';
 import UpdateClassifyForm from './components/UpdateClassifyForm';
 import type { FinancialAccount } from './data.d';
 import { addAccount, accounts, removeAccount, updateAccount } from './service';
 import { useRequest } from 'umi';
+import styles from './style.less';
+
+const { Paragraph } = Typography;
 
 
 /**
@@ -21,7 +24,6 @@ import { useRequest } from 'umi';
  *
  * @param fields
  */
-
 const handleAdd = async (fields: FinancialAccount) => {
   const hide = message.loading('正在添加');
 
@@ -98,46 +100,59 @@ const FinancialAccountCard: React.FC = () => {
     return accounts();
   });
 
-  const list = data?.list || [];
+  const list = data || [];
   const nullData: Partial<FinancialAccount> = {};
 
   return (
     <PageContainer>
-      <ProList<any>
-        ghost={true}
-        itemCardProps={{
-          ghost: true,
-        }}
-        pagination={{
-          defaultPageSize: 8,
-          showSizeChanger: false,
-        }}
-        showActions='hover'
-        rowSelection={{}}
-        grid={{ gutter: 16, column: 2 }}
-        onItem={(record: any) => {
-          return {
-            onMouseEnter: () => {
-              console.log(record);
-            },
-            onClick: () => {
-              console.log(record);
-            },
-          };
-        }}
-        metas={{
-          title: {},
-          subTitle: {},
-          type: {},
-          avatar: {},
-          content: {},
-          actions: {
-            cardActionProps: 'extra',
-          },
-        }}
-        headerTitle='卡片列表展示'
-        dataSource={[nullData, ...list]}
-      />
+      <div className={styles.cardList}>
+        <List<Partial<FinancialAccount>>
+          rowKey='id'
+          loading={loading}
+          grid={{
+            gutter: 16,
+            xs: 1,
+            sm: 2,
+            md: 3,
+            lg: 3,
+            xl: 4,
+            xxl: 4,
+          }}
+          dataSource={[nullData, ...list]}
+          renderItem={(item) => {
+            console.log(item);
+            if (item && item.accountId) {
+              return (
+                <List.Item key={item.accountId}>
+                  <Card
+                    hoverable
+                    className={styles.card}
+                    actions={[<a key='option1'>操作一</a>, <a key='option2'>操作二</a>]}
+                  >
+                    <Card.Meta
+                      // avatar={<img alt='' className={styles.cardAvatar} src={item.avatar} />}
+                      title={<a>{item.accountName}</a>}
+                      description={
+                        <Paragraph className={styles.item} ellipsis={{ rows: 3 }}>
+                          {item.accountDescribe}
+                        </Paragraph>
+                      }
+                    />
+                  </Card>
+                </List.Item>
+              );
+            }
+            return (
+              <List.Item>
+                <Button type="dashed" className={styles.newButton}>
+                  <PlusOutlined /> 新增账户
+                </Button>
+              </List.Item>
+            );
+          }}
+        />
+      </div>
+
       <CreateClassifyForm
         onFinish={async (value) => {
           const success = await handleAdd(value);

@@ -18,7 +18,6 @@ export type UpdateFormProps = {
 };
 
 const UpdateClassifyForm: React.FC<UpdateFormProps> = (props) => {
-  console.log(props.value);
   return (
     <ModalForm
       title="创建分类"
