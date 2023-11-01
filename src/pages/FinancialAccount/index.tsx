@@ -1,6 +1,6 @@
 import CreateClassifyForm from '@/pages/Classify/components/CreateClassifyForm';
 import { DeleteFilled, EditFilled, EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
-import { ProList } from '@ant-design/pro-components';
+import { ProCard, ProList } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType } from '@ant-design/pro-table';
 import { Typography, message } from 'antd';
@@ -130,7 +130,19 @@ const FinancialAccountCard: React.FC = () => {
         }}
       />,
     ],
-    content: 'dkfasjf',
+    content: (
+      <ProCard ghost gutter={8}>
+        <ProCard layout="left">
+          收入:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountIncome}
+        </ProCard>
+        <ProCard layout="left">
+          支出:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountExpenditure}
+        </ProCard>
+        <ProCard layout="left">
+          余额:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountBalance}
+        </ProCard>
+      </ProCard>
+    ),
   }));
 
   return (
