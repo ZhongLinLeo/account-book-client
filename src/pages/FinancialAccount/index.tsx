@@ -1,13 +1,19 @@
-import CreateClassifyForm from '@/pages/Classify/components/CreateClassifyForm';
-import { DeleteFilled, EditFilled, EyeFilled, EyeInvisibleFilled } from '@ant-design/icons';
+import CreateAccountForm from '@/pages/FinancialAccount/components/CreateAccountForm';
+import UpdateAccountForm from '@/pages/FinancialAccount/components/UpdateAccountForm';
+import {
+  DeleteFilled,
+  EditFilled,
+  EyeFilled,
+  EyeInvisibleFilled,
+  PlusOutlined,
+} from '@ant-design/icons';
 import { ProCard, ProList } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType } from '@ant-design/pro-table';
-import { Typography, message } from 'antd';
+import { Button, Typography, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useRequest } from 'umi';
-import type { FormValueType } from './components/UpdateClassifyForm';
-import UpdateClassifyForm from './components/UpdateClassifyForm';
+import type { FormValueType } from './components/UpdateAccountForm';
 import type { FinancialAccount } from './data.d';
 import { accounts, addAccount, removeAccount, updateAccount } from './service';
 
@@ -38,12 +44,12 @@ const handleAdd = async (fields: FinancialAccount) => {
  *
  * @param fields
  */
-const handleUpdate = async (fields: FormValueType, currentRow?: FinancialAccount) => {
+const handleUpdate = async (fields: FormValueType, currentCard?: FinancialAccount) => {
   const hide = message.loading('正在配置');
 
   try {
     await updateAccount({
-      ...currentRow,
+      ...currentCard,
       ...fields,
     });
     hide();
@@ -64,8 +70,6 @@ const handleUpdate = async (fields: FormValueType, currentRow?: FinancialAccount
 const handleRemove = async (record: FinancialAccount) => {
   const hide = message.loading('正在删除');
   if (!record) return true;
-
-  console.log(record);
   try {
     await removeAccount({
       key: record.accountId,
@@ -152,8 +156,20 @@ const FinancialAccountCard: React.FC = () => {
         itemCardProps={{
           ghost: true,
         }}
+        toolBarRender={() => {
+          return [
+            <Button
+              type="primary"
+              key="primary"
+              onClick={() => {
+                handleCreateModalVisible(true);
+              }}
+            >
+              <PlusOutlined /> 新建
+            </Button>,
+          ];
+        }}
         showActions="hover"
-        rowSelection={{}}
         grid={{ gutter: 16, column: 2 }}
         metas={{
           title: {},
@@ -167,7 +183,7 @@ const FinancialAccountCard: React.FC = () => {
         dataSource={item}
       />
 
-      <CreateClassifyForm
+      <CreateAccountForm
         onFinish={async (value) => {
           const success = await handleAdd(value);
           if (success) {
@@ -180,7 +196,7 @@ const FinancialAccountCard: React.FC = () => {
         onOpenChange={handleCreateModalVisible}
         createModalVisible={createModalVisible}
       />
-      <UpdateClassifyForm
+      <UpdateAccountForm
         onFinish={async (value) => {
           const success = await handleUpdate(value, currentCard);
           if (success) {

@@ -62,8 +62,6 @@ const handleUpdate = async (fields: FormValueType, currentRow?: TableListItem) =
 const handleRemove = async (record: TableListItem) => {
   const hide = message.loading('正在删除');
   if (!record) return true;
-
-  console.log(record);
   try {
     await removeClassify({
       key: record.classifyId,

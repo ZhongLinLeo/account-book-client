@@ -13,7 +13,7 @@ export async function updateAccount(
   data: { [key: string]: any },
   options?: { [key: string]: any },
 ) {
-  return request<FinancialAccount>('/api/account/' + data.classifyId, {
+  return request<FinancialAccount>('/api/account/' + data.accountId, {
     data,
     method: 'PUT',
     ...(options || {}),
@@ -22,7 +22,7 @@ export async function updateAccount(
 
 /** 新建账户 POST /api/account */
 export async function addAccount(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<FinancialAccount>('/api/FinancialAccount', {
+  return request<FinancialAccount>('/api/account', {
     data,
     method: 'POST',
     ...(options || {}),
