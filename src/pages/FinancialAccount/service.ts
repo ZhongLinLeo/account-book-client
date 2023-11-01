@@ -1,57 +1,37 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
-import { TableListItem } from './data';
+import { FinancialAccount } from './data';
 
-/** 获取分类列表 GET /funds_record_classify/pagination */
-export async function classifies(
-  params: {
-    // query
-    /** 当前的页码 */
-    pageNumber?: number;
-    /** 页面的容量 */
-    pageSize?: number;
-  },
-  options?: { [key: string]: any },
-) {
-  return request<{
-    data: TableListItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  }>('/api/funds_record_classify/pagination', {
-    method: 'GET',
-    params: {
-      ...params,
-    },
-    ...(options || {}),
-  });
+/** 获取账户列表 GET /account/list */
+export async function accounts(): Promise<{ data: { list: FinancialAccount[] } }> {
+  return request('/api/account/list');
 }
 
-/** 更新分类 PUT /api/rule */
-export async function updateClassify(
+/** 更新账户 PUT /api/account */
+export async function updateAccount(
   data: { [key: string]: any },
   options?: { [key: string]: any },
 ) {
-  return request<TableListItem>('/api/funds_record_classify/' + data.classifyId, {
+  return request<FinancialAccount>('/api/account/' + data.classifyId, {
     data,
     method: 'PUT',
     ...(options || {}),
   });
 }
 
-/** 新建分类 POST /api/rule */
-export async function addClassify(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/funds_record_classify', {
+/** 新建账户 POST /api/account */
+export async function addAccount(data: { [key: string]: any }, options?: { [key: string]: any }) {
+  return request<FinancialAccount>('/api/FinancialAccount', {
     data,
     method: 'POST',
     ...(options || {}),
   });
 }
 
-/** 删除分类 DELETE /api/rule */
-export async function removeClassify(data: { key: number }, options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/funds_record_classify/' + data.key, {
+/** 删除账户 DELETE /api/account */
+export async function removeAccount(data: { key: number }, options?: { [key: string]: any }) {
+  return request<Record<string, any>>('/api/account/' + data.key, {
     method: 'DELETE',
     ...(options || {}),
   });

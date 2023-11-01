@@ -1,29 +1,12 @@
-export type TableListItem = {
-  classifyId: string;
-  classifyName: string;
-  classifyType: number;
-  classifyDescribe: string;
-  createTime: Date;
+export type FinancialAccount = {
+  accountId: number;
+  accountName: string;
+  accountDescribe: string;
+  accountOwner: string;
+  accountOwnershipId: string;
+  accountBalance: number;
+  accountIncome: number;
+  accountExpenditure: number;
 };
 
-export type TableListPagination = {
-  totalSize: number;
-  pageSize: number;
-  pageNumber: number;
-};
 
-export type TableListData = {
-  list: TableListItem[];
-  pagination: Partial<TableListPagination>;
-};
-
-export type TableListParams = {
-  status?: string;
-  name?: string;
-  desc?: string;
-  key?: number;
-  pageSize?: number;
-  currentPage?: number;
-  filter?: Record<string, any[]>;
-  sorter?: Record<string, any>;
-};
