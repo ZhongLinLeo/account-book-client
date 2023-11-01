@@ -2,8 +2,12 @@ import CreateClassifyForm from '@/pages/Classify/components/CreateClassifyForm';
 import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import { Button, message } from 'antd';
+import {
+  ProFormRadio,
+  ProFormSwitch,
+  ProList,
+} from '@ant-design/pro-components';
+import { Button, message, Tag, Progress } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateClassifyForm';
 import UpdateClassifyForm from './components/UpdateClassifyForm';
@@ -78,7 +82,40 @@ const handleRemove = async (record: TableListItem) => {
   }
 };
 
-const TableList: React.FC = () => {
+const data = [
+  '语雀的天空',
+  'Ant Design',
+  '蚂蚁金服体验科技',
+  'TechUI',
+  'TechUI 2.0',
+  'Bigfish',
+  'Umi',
+  'Ant Design Pro',
+].map((item) => ({
+  title: item,
+  subTitle: <Tag color='#5BD8A6'>语雀专栏</Tag>,
+  actions: [<a key='run'>邀请</a>, <a key='delete'>删除</a>],
+  avatar:
+    'https://gw.alipayobjects.com/zos/antfincdn/UCSiy1j6jx/xingzhuang.svg',
+  content: (
+    <div
+      style={{
+        flex: 1,
+      }}
+    >
+      <div
+        style={{
+          width: 200,
+        }}
+      >
+        <div>发布中</div>
+        <Progress percent={80} />
+      </div>
+    </div>
+  ),
+}));
+
+const FinancialAccountCard: React.FC = () => {
   /** 新建窗口的弹窗 */
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   /** 分布更新窗口的弹窗 */
@@ -156,27 +193,40 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<TableListItem, TableListPagination>
-        // headerTitle='查询表格'
-        actionRef={actionRef}
-        rowKey="key"
-        search={{
-          labelWidth: 120,
+      <ProList<any>
+        ghost={true}
+        itemCardProps={{
+          ghost: true,
         }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              handleCreateModalVisible(true);
-            }}
-          >
-            <PlusOutlined /> 新建
-          </Button>,
-        ]}
-        request={classifies}
-        columns={columns}
-        options={{ density: false, setting: false, reload: false }}
+        pagination={{
+          defaultPageSize: 8,
+          showSizeChanger: false,
+        }}
+        showActions='hover'
+        rowSelection={{}}
+        grid={{ gutter: 16, column: 2 }}
+        onItem={(record: any) => {
+          return {
+            onMouseEnter: () => {
+              console.log(record);
+            },
+            onClick: () => {
+              console.log(record);
+            },
+          };
+        }}
+        metas={{
+          title: {},
+          subTitle: {},
+          type: {},
+          avatar: {},
+          content: {},
+          actions: {
+            cardActionProps: 'extra',
+          },
+        }}
+        headerTitle='卡片列表展示'
+        dataSource={data}
       />
       <CreateClassifyForm
         onFinish={async (value) => {
@@ -210,4 +260,4 @@ const TableList: React.FC = () => {
   );
 };
 
-export default TableList;
+export default FinancialAccountCard;
