@@ -36,7 +36,7 @@ export default [
   },
   {
     name: '分类信息',
-    icon: 'table',
+    icon: 'tags',
     path: '/classify',
     component: './Classify',
   },
