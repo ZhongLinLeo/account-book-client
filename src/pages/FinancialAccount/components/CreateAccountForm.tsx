@@ -1,4 +1,4 @@
-import { ModalForm, ProFormMoney, ProFormText } from '@ant-design/pro-components';
+import { ModalForm, ProFormMoney, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 import React from 'react';
 import type { FinancialAccount } from '../data';
 
@@ -7,6 +7,7 @@ export type FormValueType = {
   accountDescribe: string;
   accountBalance: number;
   accountIncome: number;
+  accountOwnershipId: string;
   accountExpenditure: number;
 } & Partial<FinancialAccount>;
 
@@ -32,6 +33,21 @@ const CreateAccountForm: React.FC<CreateFormProps> = (props) => {
       <ProFormText name="accountName" label="账户名称" placeholder="名称" />
       <ProFormText name="accountDescribe" label="账户描述" placeholder="描述" />
       <ProFormMoney name="accountBalance" label="账户余额" placeholder="余额" />
+      <ProFormSelect
+        name="accountOwnershipId"
+        label="账户归属"
+        placeholder="所属"
+        options={[
+          {
+            value: 10001,
+            label: '钟林',
+          },
+          {
+            value: 10002,
+            label: '于奇',
+          },
+        ]}
+      />
     </ModalForm>
   );
 };

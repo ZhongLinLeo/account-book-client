@@ -45,7 +45,7 @@ const handleAdd = async (fields: FinancialAccount) => {
  * @param fields
  */
 const handleUpdate = async (fields: FormValueType, currentCard?: FinancialAccount) => {
-  const hide = message.loading('正在配置');
+  const hide = message.loading('正在更新');
 
   try {
     await updateAccount({
@@ -53,11 +53,11 @@ const handleUpdate = async (fields: FormValueType, currentCard?: FinancialAccoun
       ...fields,
     });
     hide();
-    message.success('配置成功');
+    message.success('更新成功');
     return true;
   } catch (error) {
     hide();
-    message.error('配置失败请重试！');
+    message.error('更新失败请重试！');
     return false;
   }
 };
@@ -75,7 +75,7 @@ const handleRemove = async (record: FinancialAccount) => {
       key: record.accountId,
     });
     hide();
-    message.success('删除成功，即将刷新');
+    message.success('删除成功');
     return true;
   } catch (error) {
     hide();
@@ -95,9 +95,7 @@ const FinancialAccountCard: React.FC = () => {
   const [currentCard, setCurrentCard] = useState<FinancialAccount>();
   /** 国际化配置 */
 
-  const { data, loading } = useRequest(() => {
-    return accounts();
-  });
+  const { run, data, loading } = useRequest(accounts);
 
   const [visible, setVisible] = useState(false);
 
@@ -188,9 +186,7 @@ const FinancialAccountCard: React.FC = () => {
           const success = await handleAdd(value);
           if (success) {
             handleCreateModalVisible(false);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
+            run();
           }
         }}
         onOpenChange={handleCreateModalVisible}
@@ -201,10 +197,7 @@ const FinancialAccountCard: React.FC = () => {
           const success = await handleUpdate(value, currentCard);
           if (success) {
             handleUpdateModalVisible(false);
-            setCurrentCard(undefined);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
+            run();
           }
         }}
         onOpenChange={handleUpdateModalVisible}
