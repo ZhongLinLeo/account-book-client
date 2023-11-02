@@ -36,13 +36,13 @@ export default [
   },
   {
     name: '流水信息',
-    icon: 'tags',
+    icon: 'audit',
     path: '/fundsRecord',
     component: './FundsRecord',
   },
   {
     name: '账户信息',
-    icon: 'tags',
+    icon: 'creditCard',
     path: '/financialAccount',
     component: './FinancialAccount',
   },
