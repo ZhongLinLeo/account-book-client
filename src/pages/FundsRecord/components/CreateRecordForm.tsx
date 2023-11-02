@@ -1,10 +1,13 @@
-import { ModalForm, ProFormDateTimePicker, ProFormSelect, ProFormText } from '@ant-design/pro-components';
-import React from 'react';
-import type { FundsRecordResponse } from '../data';
 import { FinancialAccount } from '@/pages/FinancialAccount/data';
-import { FundsRecord } from '../data';
-import { ClassifyInfo } from '@/pages/Classify/data';
+import {
+  ModalForm,
+  ProFormDateTimePicker,
+  ProFormSelect,
+  ProFormText,
+} from '@ant-design/pro-components';
 import { SelectProps } from 'antd';
+import React from 'react';
+import { FundsRecord } from '../data';
 
 export type FormValueType = {
   fundsRecordBalance: number;
@@ -20,17 +23,16 @@ export type CreateFormProps = {
   onOpenChange: (open: boolean) => void;
   onFinish: (values: FormValueType) => Promise<void>;
   createModalVisible: boolean;
-  accountOptions: SelectProps['options']
-  classifyOptions: SelectProps['options']
+  accountOptions: FinancialAccount[];
+  classifyOptions: SelectProps['options'];
 };
 
 const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
-
   console.log(props.classifyOptions);
 
   return (
     <ModalForm
-      title='记录流水'
+      title="记录流水"
       autoFocusFirstInput
       open={props.createModalVisible}
       onOpenChange={props.onOpenChange}
@@ -40,24 +42,20 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
       onFinish={props.onFinish}
       width={'20%'}
     >
-      <ProFormText name='fundsRecordBalance' label='金额' placeholder='金额' />
-      <ProFormDateTimePicker
-        name='fundsRecordTime'
-        label='时间'
-        placeholder='时间'
-      />
-      <ProFormText name='fundsRecordDescribe' label='记录描述' placeholder='描述' />
-      <ProFormText name='fundsRecordRemark' label='记录备注' placeholder='备注' />
+      <ProFormText name="fundsRecordBalance" label="金额" placeholder="金额" />
+      <ProFormDateTimePicker name="fundsRecordTime" label="时间" placeholder="时间" />
+      <ProFormText name="fundsRecordDescribe" label="记录描述" placeholder="描述" />
+      <ProFormText name="fundsRecordRemark" label="记录备注" placeholder="备注" />
       <ProFormSelect
-        name='fundsRecordClassifyId'
-        label='分类信息'
-        placeholder='分类'
+        name="fundsRecordClassifyId"
+        label="分类信息"
+        placeholder="分类"
         options={props.classifyOptions}
       />
       <ProFormSelect
-        name='fundsUserId'
-        label='记录人'
-        placeholder='记录人'
+        name="fundsUserId"
+        label="记录人"
+        placeholder="记录人"
         options={[
           {
             value: 10001,

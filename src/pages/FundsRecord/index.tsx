@@ -1,21 +1,19 @@
-import CreateClassifyForm from '@/pages/Classify/components/CreateClassifyForm';
+import { ClassifyInfo } from '@/pages/Classify/data';
+import { listClassify } from '@/pages/Classify/service';
+import { FinancialAccount } from '@/pages/FinancialAccount/data';
+import { accounts } from '@/pages/FinancialAccount/service';
+import CreateRecordForm from '@/pages/FundsRecord/components/CreateRecordForm';
 import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Tag, Button, Popover, message, Typography, Avatar, SelectProps } from 'antd';
+import { Avatar, Button, Popover, SelectProps, Tag, Typography, message } from 'antd';
 import React, { useRef, useState } from 'react';
+import { useRequest } from 'umi';
 import type { FormValueType } from './components/UpdateRecordForm';
 import UpdateRecordForm from './components/UpdateRecordForm';
-import type { FundsRecordResponse, FundsRecordPagination } from './data.d';
+import type { FundsRecordPagination, FundsRecordResponse } from './data.d';
 import { addClassify, classifies, removeClassify, updateClassify } from './service';
-import { accounts } from '@/pages/FinancialAccount/service';
-import { useRequest } from 'umi';
-import CreateRecordForm from '@/pages/FundsRecord/components/CreateRecordForm';
-import { listClassify } from '@/pages/Classify/service';
-import { ProCard, ProFormMoney } from '@ant-design/pro-components';
-import { ClassifyInfo } from '@/pages/Classify/data';
-import { FinancialAccount } from '@/pages/FinancialAccount/data';
 
 const { Text, Link, Paragraph } = Typography;
 
@@ -102,12 +100,12 @@ const FundsRecordTable: React.FC = () => {
 
   console.log(accountList);
   const accountOptions: SelectProps['options'] = [];
-  accountList.map((account: FinancialAccount) => (
+  accountList.map((account: FinancialAccount) =>
     accountOptions.push({
       value: { this: account.accountId },
       label: { this: account.accountName },
-    })));
-
+    }),
+  );
 
   const { classifyData } = useRequest(listClassify);
   const classifyList = classifyData || [];
@@ -115,7 +113,6 @@ const FundsRecordTable: React.FC = () => {
     value: { this: classify.classifyId },
     label: { this: classify.classifyName },
   }));
-
 
   const columns: ProColumns<FundsRecordResponse>[] = [
     {
@@ -132,7 +129,8 @@ const FundsRecordTable: React.FC = () => {
               type={item.classifyInfo.classifyType === 0 ? 'danger' : 'success'}
               style={{ textAlign: 'center' }}
             >
-              {item.classifyInfo.classifyType === 0 ? '-' : '+'}{item.fundsRecordBalance}
+              {item.classifyInfo.classifyType === 0 ? '-' : '+'}
+              {item.fundsRecordBalance}
             </Text>
           </Popover>
         );
@@ -146,11 +144,7 @@ const FundsRecordTable: React.FC = () => {
       width: '25%',
       search: false,
       render: (_, item) => {
-        return (
-          <Text strong>
-            {item.fundsRecordTime}
-          </Text>
-        );
+        return <Text strong>{item.fundsRecordTime}</Text>;
       },
     },
     {
@@ -179,14 +173,9 @@ const FundsRecordTable: React.FC = () => {
       render: (_, item) => {
         return (
           <>
-            <Avatar style={{ backgroundColor: '#108ee9' }}>
-              {item.accountInfo.accountOwner}
-            </Avatar>
-            <Text strong>
-              &nbsp;&nbsp;&nbsp;{item.accountInfo.accountName}
-            </Text>
+            <Avatar style={{ backgroundColor: '#108ee9' }}>{item.accountInfo.accountOwner}</Avatar>
+            <Text strong>&nbsp;&nbsp;&nbsp;{item.accountInfo.accountName}</Text>
           </>
-
         );
       },
     },
@@ -223,14 +212,14 @@ const FundsRecordTable: React.FC = () => {
       <ProTable<FundsRecordResponse, FundsRecordPagination>
         // headerTitle='查询表格'
         actionRef={actionRef}
-        rowKey='key'
+        rowKey="key"
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
           <Button
-            type='primary'
-            key='primary'
+            type="primary"
+            key="primary"
             onClick={() => {
               handleCreateModalVisible(true);
             }}
