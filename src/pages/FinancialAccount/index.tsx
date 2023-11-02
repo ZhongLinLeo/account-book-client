@@ -97,7 +97,7 @@ const FinancialAccountCard: React.FC = () => {
 
   const { run, data, loading } = useRequest(accounts);
 
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   const list = data || [];
 
