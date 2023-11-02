@@ -37,7 +37,7 @@ const handleAdd = async (fields: ClassifyInfo) => {
  */
 
 const handleUpdate = async (fields: FormValueType, currentRow?: ClassifyInfo) => {
-  const hide = message.loading('正在配置');
+  const hide = message.loading('正在修改');
 
   try {
     await updateClassify({
@@ -45,11 +45,11 @@ const handleUpdate = async (fields: FormValueType, currentRow?: ClassifyInfo) =>
       ...fields,
     });
     hide();
-    message.success('配置成功');
+    message.success('修改成功');
     return true;
   } catch (error) {
     hide();
-    message.error('配置失败请重试！');
+    message.error('修改失败请重试！');
     return false;
   }
 };
