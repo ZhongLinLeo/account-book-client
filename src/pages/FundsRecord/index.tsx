@@ -3,7 +3,7 @@ import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Badge, Button, message } from 'antd';
+import { Tag, Button, Popover, message, Typography, Avatar } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateRecordForm';
 import UpdateRecordForm from './components/UpdateRecordForm';
@@ -14,6 +14,8 @@ import { useRequest } from 'umi';
 import CreateRecordForm from '@/pages/FundsRecord/components/CreateRecordForm';
 import { listClassify } from '@/pages/Classify/service';
 import { ProCard, ProFormMoney } from '@ant-design/pro-components';
+
+const { Text, Link, Paragraph } = Typography;
 
 /**
  * 添加节点
@@ -100,38 +102,72 @@ const TableList: React.FC = () => {
       hideInForm: true,
       dataIndex: 'fundsRecordBalance',
       width: '10%',
+      align: 'center',
       render: (_, item) => {
         return (
-          <ProCard layout='left' style={{ color: item.classifyInfo.classifyType === 1 ? 'red' : 'green' }}>
-            {item.classifyInfo.classifyType === 1 ? '-' : '+'}{item.fundsRecordBalance}
-          </ProCard>
+          <Popover content={item.fundsRecordRemark}>
+            <Text
+              strong
+              type={item.classifyInfo.classifyType === 0 ? 'danger' : 'success'}
+              style={{ textAlign: 'center' }}
+            >
+              {item.classifyInfo.classifyType === 0 ? '-' : '+'}{item.fundsRecordBalance}
+            </Text>
+          </Popover>
         );
       },
     },
     {
       title: '时间',
       dataIndex: 'fundsRecordTime',
+      sorter: true,
+      align: 'center',
       width: '25%',
       search: false,
+      render: (_, item) => {
+        return (
+          <Text strong>
+            {item.fundsRecordTime}
+          </Text>
+        );
+      },
     },
     {
       title: '描述',
       dataIndex: 'fundsRecordDescribe',
       search: false,
-      width: '20%',
+      width: '30%',
+    },
+    {
+      title: '分类',
+      dataIndex: 'classifyType',
+      search: false,
+      width: '10%',
+      render: (_, item) => {
+        return (
+          <Tag color={item.classifyInfo.classifyType === 0 ? 'red' : 'green'}>
+            {item.classifyInfo.classifyName}
+          </Tag>
+        );
+      },
     },
     {
       title: '账户信息',
-      sorter: true,
-      search: false,
       dataIndex: 'fundsAccountInfo',
       width: '20%',
-    },
-    {
-      title: '记录人',
-      search: false,
-      dataIndex: 'fundsAccountInfo',
-      width: '15%',
+      render: (_, item) => {
+        return (
+          <>
+            <Avatar style={{ backgroundColor: '#108ee9' }}>
+              {item.accountInfo.accountOwner}
+            </Avatar>
+            <Text strong>
+              &nbsp;&nbsp;&nbsp;{item.accountInfo.accountName}
+            </Text>
+          </>
+
+        );
+      },
     },
     {
       title: '操作',
