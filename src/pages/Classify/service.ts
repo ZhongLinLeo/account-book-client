@@ -1,7 +1,8 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
-import { TableListItem } from './data';
+import { ClassifyInfo } from './data';
+import { FinancialAccount } from '@/pages/FinancialAccount/data';
 
 /** 获取分类列表 GET /funds_record_classify/pagination */
 export async function classifies(
@@ -15,7 +16,7 @@ export async function classifies(
   options?: { [key: string]: any },
 ) {
   return request<{
-    data: TableListItem[];
+    data: ClassifyInfo[];
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;
@@ -28,12 +29,17 @@ export async function classifies(
   });
 }
 
+/** 获取分类列表 GET /funds_record_classify/list */
+export async function listClassify(): Promise<{ data: { list: ClassifyInfo[] } }> {
+  return request('/api/funds_record_classify/list');
+}
+
 /** 更新分类 PUT /api/rule */
 export async function updateClassify(
   data: { [key: string]: any },
   options?: { [key: string]: any },
 ) {
-  return request<TableListItem>('/api/funds_record_classify/' + data.classifyId, {
+  return request<ClassifyInfo>('/api/funds_record_classify/' + data.classifyId, {
     data,
     method: 'PUT',
     ...(options || {}),
@@ -42,7 +48,7 @@ export async function updateClassify(
 
 /** 新建分类 POST /api/rule */
 export async function addClassify(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<TableListItem>('/api/funds_record_classify', {
+  return request<ClassifyInfo>('/api/funds_record_classify', {
     data,
     method: 'POST',
     ...(options || {}),

@@ -9,6 +9,10 @@ import type { FormValueType } from './components/UpdateRecordForm';
 import UpdateRecordForm from './components/UpdateRecordForm';
 import type { FundsRecordItem, FundsRecordPagination } from './data.d';
 import { addClassify, classifies, removeClassify, updateClassify } from './service';
+import { accounts } from '@/pages/FinancialAccount/service';
+import { useRequest } from 'umi';
+import CreateRecordForm from '@/pages/FundsRecord/components/CreateRecordForm';
+import { listClassify } from '@/pages/Classify/service';
 
 /**
  * 添加节点
@@ -37,7 +41,7 @@ const handleAdd = async (fields: FundsRecordItem) => {
  */
 
 const handleUpdate = async (fields: FormValueType, currentRow?: FundsRecordItem) => {
-  const hide = message.loading('正在配置');
+  const hide = message.loading('正在编辑');
 
   try {
     await updateClassify({
@@ -45,11 +49,11 @@ const handleUpdate = async (fields: FormValueType, currentRow?: FundsRecordItem)
       ...fields,
     });
     hide();
-    message.success('配置成功');
+    message.success('编辑成功');
     return true;
   } catch (error) {
     hide();
-    message.error('配置失败请重试！');
+    message.error('编辑失败，请重试！');
     return false;
   }
 };
@@ -64,7 +68,7 @@ const handleRemove = async (record: FundsRecordItem) => {
   if (!record) return true;
   try {
     await removeClassify({
-      key: record.classifyId,
+      key: record.fundsRecordId,
     });
     hide();
     message.success('删除成功，即将刷新');
@@ -86,43 +90,40 @@ const TableList: React.FC = () => {
   const [currentRow, setCurrentRow] = useState<FundsRecordItem>();
   /** 国际化配置 */
 
+  const { accountList } = useRequest(accounts);
+  const { classifyList } = useRequest(listClassify);
+
   const columns: ProColumns<FundsRecordItem>[] = [
     {
-      title: '名称',
-      dataIndex: 'classifyName',
-      width: '20%',
+      title: '金额',
+      hideInForm: true,
+      dataIndex: 'fundsRecordBalance',
+      width: '10%',
     },
     {
-      title: '类型',
-      dataIndex: 'classifyType',
-      hideInForm: true,
-      width: '20%',
+      title: '时间',
+      dataIndex: 'fundsRecordTime',
+      width: '25%',
       search: false,
-      valueEnum: {
-        0: {
-          text: '支出',
-          status: 'Error',
-        },
-        1: {
-          text: '收入',
-          status: 'Success',
-        },
-      },
     },
     {
       title: '描述',
-      dataIndex: 'classifyDescribe',
+      dataIndex: 'fundsRecordDescribe',
       search: false,
       width: '20%',
     },
     {
-      title: '创建时间',
+      title: '账户信息',
       sorter: true,
       search: false,
-      dataIndex: 'createTime',
-      valueType: 'dateTime',
-
-      width: '30%',
+      dataIndex: 'fundsAccountInfo',
+      width: '20%',
+    },
+    {
+      title: '记录人',
+      search: false,
+      dataIndex: 'fundsAccountInfo',
+      width: '15%',
     },
     {
       title: '操作',
@@ -157,14 +158,14 @@ const TableList: React.FC = () => {
       <ProTable<FundsRecordItem, FundsRecordPagination>
         // headerTitle='查询表格'
         actionRef={actionRef}
-        rowKey="key"
+        rowKey='key'
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
           <Button
-            type="primary"
-            key="primary"
+            type='primary'
+            key='primary'
             onClick={() => {
               handleCreateModalVisible(true);
             }}
@@ -176,7 +177,7 @@ const TableList: React.FC = () => {
         columns={columns}
         options={{ density: false, setting: false, reload: false }}
       />
-      <CreateClassifyForm
+      <CreateRecordForm
         onFinish={async (value) => {
           const success = await handleAdd(value);
           if (success) {
@@ -188,6 +189,8 @@ const TableList: React.FC = () => {
         }}
         onOpenChange={handleCreateModalVisible}
         createModalVisible={createModalVisible}
+        accountList={accountList}
+        classifyList={classifyList}
       />
       <UpdateRecordForm
         onFinish={async (value) => {
@@ -203,6 +206,8 @@ const TableList: React.FC = () => {
         onOpenChange={handleUpdateModalVisible}
         updateModalVisible={updateModalVisible}
         value={currentRow || {}}
+        accountList={accountList}
+        classifyList={classifyList}
       />
     </PageContainer>
   );

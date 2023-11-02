@@ -1,12 +1,12 @@
 import { ModalForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 import React from 'react';
-import type { TableListItem } from '../data';
+import type { ClassifyInfo } from '../data';
 
 export type FormValueType = {
   classifyName: string;
   classifyType: number;
   classifyDescribe: string;
-} & Partial<TableListItem>;
+} & Partial<ClassifyInfo>;
 
 export type CreateFormProps = {
   onOpenChange: (open: boolean) => void;

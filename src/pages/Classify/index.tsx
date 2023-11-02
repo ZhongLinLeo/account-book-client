@@ -7,7 +7,7 @@ import { Button, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateClassifyForm';
 import UpdateClassifyForm from './components/UpdateClassifyForm';
-import type { TableListItem, TableListPagination } from './data.d';
+import type { ClassifyInfo, TableListPagination } from './data.d';
 import { addClassify, classifies, removeClassify, updateClassify } from './service';
 
 /**
@@ -16,7 +16,7 @@ import { addClassify, classifies, removeClassify, updateClassify } from './servi
  * @param fields
  */
 
-const handleAdd = async (fields: TableListItem) => {
+const handleAdd = async (fields: ClassifyInfo) => {
   const hide = message.loading('正在添加');
 
   try {
@@ -36,7 +36,7 @@ const handleAdd = async (fields: TableListItem) => {
  * @param fields
  */
 
-const handleUpdate = async (fields: FormValueType, currentRow?: TableListItem) => {
+const handleUpdate = async (fields: FormValueType, currentRow?: ClassifyInfo) => {
   const hide = message.loading('正在配置');
 
   try {
@@ -59,7 +59,7 @@ const handleUpdate = async (fields: FormValueType, currentRow?: TableListItem) =
  * @param selectedRows
  */
 
-const handleRemove = async (record: TableListItem) => {
+const handleRemove = async (record: ClassifyInfo) => {
   const hide = message.loading('正在删除');
   if (!record) return true;
   try {
@@ -83,10 +83,10 @@ const TableList: React.FC = () => {
 
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<TableListItem>();
+  const [currentRow, setCurrentRow] = useState<ClassifyInfo>();
   /** 国际化配置 */
 
-  const columns: ProColumns<TableListItem>[] = [
+  const columns: ProColumns<ClassifyInfo>[] = [
     {
       title: '名称',
       dataIndex: 'classifyName',
@@ -154,7 +154,7 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<TableListItem, TableListPagination>
+      <ProTable<ClassifyInfo, TableListPagination>
         // headerTitle='查询表格'
         actionRef={actionRef}
         rowKey="key"

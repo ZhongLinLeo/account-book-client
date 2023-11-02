@@ -1,20 +1,20 @@
 import { ModalForm } from '@ant-design/pro-components';
 import { ProFormSelect, ProFormText } from '@ant-design/pro-form';
 import React from 'react';
-import type { TableListItem } from '../data';
+import type { ClassifyInfo } from '../data';
 
 export type FormValueType = {
   classifyId: string;
   classifyName: string;
   classifyType: number;
   classifyDescribe: string;
-} & Partial<TableListItem>;
+} & Partial<ClassifyInfo>;
 
 export type UpdateFormProps = {
   onOpenChange: (open: boolean) => void;
   onFinish: (values: FormValueType) => Promise<void>;
   updateModalVisible: boolean;
-  value: Partial<TableListItem>;
+  value: Partial<ClassifyInfo>;
 };
 
 const UpdateClassifyForm: React.FC<UpdateFormProps> = (props) => {

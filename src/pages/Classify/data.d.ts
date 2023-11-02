@@ -1,4 +1,4 @@
-export type TableListItem = {
+export type ClassifyInfo = {
   classifyId: string;
   classifyName: string;
   classifyType: number;

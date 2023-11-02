@@ -1,11 +1,14 @@
+import { ClassifyInfo } from '@/pages/Classify/data';
+import { FinancialAccount } from '@/pages/FinancialAccount/data';
+
 export type FundsRecordItem = {
   fundsRecordId: string;
   fundsRecordBalance: number;
   fundsRecordTime: Date;
   fundsRecordDescribe: string;
   fundsRecordRemark: string;
-  fundsRecordClassifyId: string;
-  fundsAccountId: string;
+  classifyInfo: ClassifyInfo;
+  accountInfo: FinancialAccount;
   fundsUserId: string;
 };
 
