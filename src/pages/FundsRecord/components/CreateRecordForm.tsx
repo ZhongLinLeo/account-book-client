@@ -1,4 +1,3 @@
-import { FinancialAccount } from '@/pages/FinancialAccount/data';
 import {
   ModalForm,
   ProFormDateTimePicker,
@@ -23,13 +22,11 @@ export type CreateFormProps = {
   onOpenChange: (open: boolean) => void;
   onFinish: (values: FormValueType) => Promise<void>;
   createModalVisible: boolean;
-  accountOptions: FinancialAccount[];
+  accountOptions: SelectProps['options'];
   classifyOptions: SelectProps['options'];
 };
 
 const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
-  console.log(props.classifyOptions);
-
   return (
     <ModalForm
       title="记录流水"
@@ -46,6 +43,12 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
       <ProFormDateTimePicker name="fundsRecordTime" label="时间" placeholder="时间" />
       <ProFormText name="fundsRecordDescribe" label="记录描述" placeholder="描述" />
       <ProFormText name="fundsRecordRemark" label="记录备注" placeholder="备注" />
+      <ProFormSelect
+        name="fundsRecordAccountId"
+        label="账户信息"
+        placeholder="账户"
+        options={props.accountOptions}
+      />
       <ProFormSelect
         name="fundsRecordClassifyId"
         label="分类信息"

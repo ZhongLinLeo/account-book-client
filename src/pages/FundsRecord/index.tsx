@@ -7,7 +7,7 @@ import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Avatar, Button, Popover, SelectProps, Tag, Typography, message } from 'antd';
+import { Avatar, Button, Popover, Tag, Typography, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useRequest } from 'umi';
 import type { FormValueType } from './components/UpdateRecordForm';
@@ -93,25 +93,18 @@ const FundsRecordTable: React.FC = () => {
   const [currentRow, setCurrentRow] = useState<FundsRecordResponse>();
   /** 国际化配置 */
 
-  const { run, accountData } = useRequest(accounts);
-  console.log(accountData);
-
+  const { data: accountData } = useRequest(accounts);
   const accountList = accountData || [];
+  const accountOptions = accountList.map((account: FinancialAccount) => ({
+    value: account.accountId,
+    label: account.accountName,
+  }));
 
-  console.log(accountList);
-  const accountOptions: SelectProps['options'] = [];
-  accountList.map((account: FinancialAccount) =>
-    accountOptions.push({
-      value: { this: account.accountId },
-      label: { this: account.accountName },
-    }),
-  );
-
-  const { classifyData } = useRequest(listClassify);
+  const { data: classifyData } = useRequest(listClassify);
   const classifyList = classifyData || [];
   const classifyOptions = classifyList.map((classify: ClassifyInfo) => ({
-    value: { this: classify.classifyId },
-    label: { this: classify.classifyName },
+    value: classify.classifyId,
+    label: classify.classifyName,
   }));
 
   const columns: ProColumns<FundsRecordResponse>[] = [
@@ -207,6 +200,21 @@ const FundsRecordTable: React.FC = () => {
     },
   ];
 
+  // const { data: accountData1 } = useRequest(accounts);
+  // const accountList1 = accountData1 || [];
+  // const item = accountList1.map((account) => ({
+  //   value: account.accountName,
+  //   label: account.accountDescribe,
+  // }));
+  // console.log(item);
+  // //
+  // // const { classifyData } = useRequest(classifies());
+  // // const classifyList = accountData || [];
+  // // const classifyOptions = classifyList.map((account) => ({
+  // //   value: account.accountId,
+  // //   label: account.accountName,
+  // // }));
+
   return (
     <PageContainer>
       <ProTable<FundsRecordResponse, FundsRecordPagination>
@@ -243,8 +251,8 @@ const FundsRecordTable: React.FC = () => {
         }}
         onOpenChange={handleCreateModalVisible}
         createModalVisible={createModalVisible}
-        accountList={accountOptions}
-        classifyList={classifyOptions}
+        accountOptions={accountOptions}
+        classifyOptions={classifyOptions}
       />
       <UpdateRecordForm
         onFinish={async (value) => {
