@@ -1,22 +1,33 @@
 import { ModalForm, ProFormDateTimePicker, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 import React from 'react';
-import type { FundsRecordItem } from '../data';
+import type { FundsRecordResponse } from '../data';
 import { FinancialAccount } from '@/pages/FinancialAccount/data';
+import { FundsRecord } from '../data';
+import { ClassifyInfo } from '@/pages/Classify/data';
+import { SelectProps } from 'antd';
 
 export type FormValueType = {
-  classifyName: string;
-  classifyType: number;
-  classifyDescribe: string;
-} & Partial<FundsRecordItem>;
+  fundsRecordBalance: number;
+  fundsRecordTime: Date;
+  fundsRecordDescribe: string;
+  fundsRecordRemark: string;
+  fundsRecordClassifyId: string;
+  fundsAccountId: string;
+  fundsUserId: string;
+} & Partial<FundsRecord>;
 
 export type CreateFormProps = {
   onOpenChange: (open: boolean) => void;
   onFinish: (values: FormValueType) => Promise<void>;
   createModalVisible: boolean;
-  accountList: FinancialAccount[]
+  accountOptions: SelectProps['options']
+  classifyOptions: SelectProps['options']
 };
 
 const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
+
+  console.log(props.classifyOptions);
+
   return (
     <ModalForm
       title='记录流水'
@@ -37,6 +48,12 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
       />
       <ProFormText name='fundsRecordDescribe' label='记录描述' placeholder='描述' />
       <ProFormText name='fundsRecordRemark' label='记录备注' placeholder='备注' />
+      <ProFormSelect
+        name='fundsRecordClassifyId'
+        label='分类信息'
+        placeholder='分类'
+        options={props.classifyOptions}
+      />
       <ProFormSelect
         name='fundsUserId'
         label='记录人'

@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
-import { FundsRecordItem } from './data';
+import { FundsRecordResponse } from './data';
 
 /** 获取记录列表 GET /funds_record/pagination */
 export async function classifies(
@@ -14,7 +14,7 @@ export async function classifies(
   options?: { [key: string]: any },
 ) {
   return request<{
-    data: FundsRecordItem[];
+    data: FundsRecordResponse[];
     /** 列表的内容总数 */
     total?: number;
     success?: boolean;
@@ -32,7 +32,7 @@ export async function updateClassify(
   data: { [key: string]: any },
   options?: { [key: string]: any },
 ) {
-  return request<FundsRecordItem>('/api/funds_record/' + data.fundsRecordId, {
+  return request<FundsRecordResponse>('/api/funds_record/' + data.fundsRecordId, {
     data,
     method: 'PUT',
     ...(options || {}),
@@ -41,7 +41,7 @@ export async function updateClassify(
 
 /** 新建记录 POST /api/funds_record */
 export async function addClassify(data: { [key: string]: any }, options?: { [key: string]: any }) {
-  return request<FundsRecordItem>('/api/funds_record', {
+  return request<FundsRecordResponse>('/api/funds_record', {
     data,
     method: 'POST',
     ...(options || {}),

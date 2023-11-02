@@ -1,7 +1,7 @@
 import { ModalForm, ProFormDateTimePicker } from '@ant-design/pro-components';
 import { ProFormSelect, ProFormText } from '@ant-design/pro-form';
 import React from 'react';
-import type { FundsRecordItem } from '../data';
+import type { FundsRecordResponse } from '../data';
 import { FinancialAccount } from '@/pages/FinancialAccount/data';
 import { ClassifyInfo } from '@/pages/Classify/data';
 
@@ -10,13 +10,13 @@ export type FormValueType = {
   classifyName: string;
   classifyType: number;
   classifyDescribe: string;
-} & Partial<FundsRecordItem>;
+} & Partial<FundsRecordResponse>;
 
 export type UpdateFormProps = {
   onOpenChange: (open: boolean) => void;
   onFinish: (values: FormValueType) => Promise<void>;
   updateModalVisible: boolean;
-  value: Partial<FundsRecordItem>;
+  value: Partial<FundsRecordResponse>;
   accountList: FinancialAccount[]
   classifyList: ClassifyInfo[]
 };

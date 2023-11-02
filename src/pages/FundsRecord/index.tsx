@@ -3,17 +3,19 @@ import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Tag, Button, Popover, message, Typography, Avatar } from 'antd';
+import { Tag, Button, Popover, message, Typography, Avatar, SelectProps } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateRecordForm';
 import UpdateRecordForm from './components/UpdateRecordForm';
-import type { FundsRecordItem, FundsRecordPagination } from './data.d';
+import type { FundsRecordResponse, FundsRecordPagination } from './data.d';
 import { addClassify, classifies, removeClassify, updateClassify } from './service';
 import { accounts } from '@/pages/FinancialAccount/service';
 import { useRequest } from 'umi';
 import CreateRecordForm from '@/pages/FundsRecord/components/CreateRecordForm';
 import { listClassify } from '@/pages/Classify/service';
 import { ProCard, ProFormMoney } from '@ant-design/pro-components';
+import { ClassifyInfo } from '@/pages/Classify/data';
+import { FinancialAccount } from '@/pages/FinancialAccount/data';
 
 const { Text, Link, Paragraph } = Typography;
 
@@ -23,7 +25,7 @@ const { Text, Link, Paragraph } = Typography;
  * @param fields
  */
 
-const handleAdd = async (fields: FundsRecordItem) => {
+const handleAdd = async (fields: FundsRecordResponse) => {
   const hide = message.loading('正在添加');
 
   try {
@@ -40,10 +42,10 @@ const handleAdd = async (fields: FundsRecordItem) => {
 /**
  * 更新节点
  *
- * @param fields
+ * @param currentRow
  */
 
-const handleUpdate = async (fields: FormValueType, currentRow?: FundsRecordItem) => {
+const handleUpdate = async (fields: FormValueType, currentRow?: FundsRecordResponse) => {
   const hide = message.loading('正在编辑');
 
   try {
@@ -60,13 +62,13 @@ const handleUpdate = async (fields: FormValueType, currentRow?: FundsRecordItem)
     return false;
   }
 };
+
 /**
  * 删除节点
  *
- * @param selectedRows
+ * @param record
  */
-
-const handleRemove = async (record: FundsRecordItem) => {
+const handleRemove = async (record: FundsRecordResponse) => {
   const hide = message.loading('正在删除');
   if (!record) return true;
   try {
@@ -83,20 +85,39 @@ const handleRemove = async (record: FundsRecordItem) => {
   }
 };
 
-const TableList: React.FC = () => {
+const FundsRecordTable: React.FC = () => {
   /** 新建窗口的弹窗 */
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
   /** 分布更新窗口的弹窗 */
 
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<FundsRecordItem>();
+  const [currentRow, setCurrentRow] = useState<FundsRecordResponse>();
   /** 国际化配置 */
 
-  const { accountList } = useRequest(accounts);
-  const { classifyList } = useRequest(listClassify);
+  const { run, accountData } = useRequest(accounts);
+  console.log(accountData);
 
-  const columns: ProColumns<FundsRecordItem>[] = [
+  const accountList = accountData || [];
+
+  console.log(accountList);
+  const accountOptions: SelectProps['options'] = [];
+  accountList.map((account: FinancialAccount) => (
+    accountOptions.push({
+      value: { this: account.accountId },
+      label: { this: account.accountName },
+    })));
+
+
+  const { classifyData } = useRequest(listClassify);
+  const classifyList = classifyData || [];
+  const classifyOptions = classifyList.map((classify: ClassifyInfo) => ({
+    value: { this: classify.classifyId },
+    label: { this: classify.classifyName },
+  }));
+
+
+  const columns: ProColumns<FundsRecordResponse>[] = [
     {
       title: '金额',
       hideInForm: true,
@@ -199,7 +220,7 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<FundsRecordItem, FundsRecordPagination>
+      <ProTable<FundsRecordResponse, FundsRecordPagination>
         // headerTitle='查询表格'
         actionRef={actionRef}
         rowKey='key'
@@ -233,8 +254,8 @@ const TableList: React.FC = () => {
         }}
         onOpenChange={handleCreateModalVisible}
         createModalVisible={createModalVisible}
-        accountList={accountList}
-        classifyList={classifyList}
+        accountList={accountOptions}
+        classifyList={classifyOptions}
       />
       <UpdateRecordForm
         onFinish={async (value) => {
@@ -250,11 +271,11 @@ const TableList: React.FC = () => {
         onOpenChange={handleUpdateModalVisible}
         updateModalVisible={updateModalVisible}
         value={currentRow || {}}
-        accountList={accountList}
-        classifyList={classifyList}
+        accountList={accountOptions}
+        classifyList={classifyOptions}
       />
     </PageContainer>
   );
 };
 
-export default TableList;
+export default FundsRecordTable;

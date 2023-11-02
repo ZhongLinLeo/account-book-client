@@ -1,7 +1,7 @@
 import { ClassifyInfo } from '@/pages/Classify/data';
 import { FinancialAccount } from '@/pages/FinancialAccount/data';
 
-export type FundsRecordItem = {
+export type FundsRecordResponse = {
   fundsRecordId: string;
   fundsRecordBalance: number;
   fundsRecordTime: Date;
@@ -17,3 +17,16 @@ export type FundsRecordPagination = {
   pageSize: number;
   pageNumber: number;
 };
+
+
+export type FundsRecord = {
+  fundsRecordId: string;
+  fundsRecordBalance: number;
+  fundsRecordTime: Date;
+  fundsRecordDescribe: string;
+  fundsRecordRemark: string;
+  fundsRecordClassifyId: string;
+  fundsAccountId: string;
+  fundsUserId: string;
+};
+
