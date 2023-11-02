@@ -3,7 +3,7 @@ import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Button, message } from 'antd';
+import { Badge, Button, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import type { FormValueType } from './components/UpdateRecordForm';
 import UpdateRecordForm from './components/UpdateRecordForm';
@@ -13,6 +13,7 @@ import { accounts } from '@/pages/FinancialAccount/service';
 import { useRequest } from 'umi';
 import CreateRecordForm from '@/pages/FundsRecord/components/CreateRecordForm';
 import { listClassify } from '@/pages/Classify/service';
+import { ProCard, ProFormMoney } from '@ant-design/pro-components';
 
 /**
  * 添加节点
@@ -99,6 +100,13 @@ const TableList: React.FC = () => {
       hideInForm: true,
       dataIndex: 'fundsRecordBalance',
       width: '10%',
+      render: (_, item) => {
+        return (
+          <ProCard layout='left' style={{ color: item.classifyInfo.classifyType === 1 ? 'red' : 'green' }}>
+            {item.classifyInfo.classifyType === 1 ? '-' : '+'}{item.fundsRecordBalance}
+          </ProCard>
+        );
+      },
     },
     {
       title: '时间',
