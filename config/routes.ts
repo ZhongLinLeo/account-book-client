@@ -35,6 +35,12 @@ export default [
     ],
   },
   {
+    name: '流水信息',
+    icon: 'tags',
+    path: '/fundsRecord',
+    component: './FundsRecord',
+  },
+  {
     name: '账户信息',
     icon: 'tags',
     path: '/financialAccount',
