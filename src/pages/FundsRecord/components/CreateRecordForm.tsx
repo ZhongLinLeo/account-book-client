@@ -1,6 +1,7 @@
 import {
   ModalForm,
   ProFormDateTimePicker,
+  ProFormMoney,
   ProFormSelect,
   ProFormText,
 } from '@ant-design/pro-components';
@@ -39,7 +40,7 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
       onFinish={props.onFinish}
       width={'20%'}
     >
-      <ProFormText name="fundsRecordBalance" label="金额" placeholder="金额" />
+      <ProFormMoney name="fundsRecordBalance" label="金额" placeholder="金额" />
       <ProFormDateTimePicker name="fundsRecordTime" label="时间" placeholder="时间" />
       <ProFormText name="fundsRecordDescribe" label="记录描述" placeholder="描述" />
       <ProFormText name="fundsRecordRemark" label="记录备注" placeholder="备注" />

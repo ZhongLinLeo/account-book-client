@@ -1,9 +1,8 @@
-import { ModalForm, ProFormDateTimePicker } from '@ant-design/pro-components';
+import { ModalForm, ProFormDateTimePicker, ProFormMoney } from '@ant-design/pro-components';
 import { ProFormSelect, ProFormText } from '@ant-design/pro-form';
+import { SelectProps } from 'antd';
 import React from 'react';
 import type { FundsRecordResponse } from '../data';
-import { FinancialAccount } from '@/pages/FinancialAccount/data';
-import { ClassifyInfo } from '@/pages/Classify/data';
 
 export type FormValueType = {
   classifyId: string;
@@ -17,15 +16,15 @@ export type UpdateFormProps = {
   onFinish: (values: FormValueType) => Promise<void>;
   updateModalVisible: boolean;
   value: Partial<FundsRecordResponse>;
-  accountList: FinancialAccount[]
-  classifyList: ClassifyInfo[]
+  accountOptions: SelectProps['options'];
+  classifyOptions: SelectProps['options'];
 };
 
 const UpdateRecordForm: React.FC<UpdateFormProps> = (props) => {
   console.log(props.value);
   return (
     <ModalForm
-      title='创建分类'
+      title="创建分类"
       autoFocusFirstInput
       open={props.updateModalVisible}
       onOpenChange={props.onOpenChange}
@@ -35,31 +34,48 @@ const UpdateRecordForm: React.FC<UpdateFormProps> = (props) => {
       onFinish={props.onFinish}
       width={'20%'}
     >
-      <ProFormText
-        name='fundsRecordBalance'
-        label='金额'
-        placeholder='金额'
-        initialValue={props.value.fundsRecordBalance} />
+      <ProFormMoney
+        name="fundsRecordBalance"
+        label="金额"
+        placeholder="金额"
+        initialValue={props.value.fundsRecordBalance}
+      />
       <ProFormDateTimePicker
-        name='fundsRecordTime'
-        label='时间'
-        placeholder='时间'
+        name="fundsRecordTime"
+        label="时间"
+        placeholder="时间"
         initialValue={props.value.fundsRecordTime}
       />
       <ProFormText
-        name='fundsRecordDescribe'
-        label='记录描述'
-        placeholder='描述'
-        initialValue={props.value.fundsRecordDescribe} />
+        name="fundsRecordDescribe"
+        label="记录描述"
+        placeholder="描述"
+        initialValue={props.value.fundsRecordDescribe}
+      />
       <ProFormText
-        name='fundsRecordRemark'
-        label='记录备注'
-        placeholder='备注'
-        initialValue={props.value.fundsRecordRemark} />
+        name="fundsRecordRemark"
+        label="记录备注"
+        placeholder="备注"
+        initialValue={props.value.fundsRecordRemark}
+      />
       <ProFormSelect
-        name='fundsUserId'
-        label='记录人'
-        placeholder='记录人'
+        name="fundsRecordAccountId"
+        label="账户信息"
+        placeholder="账户"
+        options={props.accountOptions}
+        initialValue={props.value.accountInfo?.accountId}
+      />
+      <ProFormSelect
+        name="fundsRecordClassifyId"
+        label="分类信息"
+        placeholder="分类"
+        options={props.classifyOptions}
+        initialValue={props.value.classifyInfo?.classifyId}
+      />
+      <ProFormSelect
+        name="fundsUserId"
+        label="记录人"
+        placeholder="记录人"
         initialValue={props.value.fundsUserId}
         options={[
           {

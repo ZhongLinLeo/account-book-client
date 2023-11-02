@@ -268,8 +268,8 @@ const FundsRecordTable: React.FC = () => {
         onOpenChange={handleUpdateModalVisible}
         updateModalVisible={updateModalVisible}
         value={currentRow || {}}
-        accountList={accountOptions}
-        classifyList={classifyOptions}
+        accountOptions={accountOptions}
+        classifyOptions={classifyOptions}
       />
     </PageContainer>
   );
