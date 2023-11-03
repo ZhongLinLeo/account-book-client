@@ -15,7 +15,7 @@ import UpdateRecordForm from './components/UpdateRecordForm';
 import type { FundsRecordPagination, FundsRecordResponse } from './data.d';
 import { addClassify, classifies, removeClassify, updateClassify } from './service';
 
-const { Text, Link, Paragraph } = Typography;
+const { Text } = Typography;
 
 /**
  * 添加节点
@@ -206,14 +206,14 @@ const FundsRecordTable: React.FC = () => {
       <ProTable<FundsRecordResponse, FundsRecordPagination>
         // headerTitle='查询表格'
         actionRef={actionRef}
-        rowKey="key"
+        rowKey='key'
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
           <Button
-            type="primary"
-            key="primary"
+            type='primary'
+            key='primary'
             onClick={() => {
               handleCreateModalVisible(true);
             }}
