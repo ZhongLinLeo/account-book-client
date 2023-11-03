@@ -12,27 +12,10 @@
  */
 export default [
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'smile',
-    component: './Welcome',
-  },
-  {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
-    routes: [
-      {
-        path: '/admin',
-        redirect: '/admin/sub-page',
-      },
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        component: './Admin',
-      },
-    ],
+    name: '分析概览',
+    icon: 'fund',
+    path: '/dashboard',
+    component: './Dashboard',
   },
   {
     name: '流水信息',
@@ -54,11 +37,6 @@ export default [
   },
   {
     path: '/',
-    redirect: '/welcome',
-  },
-  {
-    path: '*',
-    layout: false,
-    component: './404',
+    redirect: '/dashboard',
   },
 ];
