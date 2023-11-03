@@ -94,11 +94,11 @@ const UpdateRecordForm: React.FC<UpdateFormProps> = (props) => {
         initialValue={props.value.fundsUserId}
         options={[
           {
-            value: 10001,
+            value: '10001',
             label: '钟林',
           },
           {
-            value: 10002,
+            value: '10002',
             label: '于奇',
           },
         ]}
