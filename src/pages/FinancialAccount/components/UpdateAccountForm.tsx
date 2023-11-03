@@ -22,7 +22,7 @@ export type UpdateFormProps = {
 const UpdateAccountForm: React.FC<UpdateFormProps> = (props) => {
   return (
     <ModalForm
-      title="编辑账户"
+      title='编辑账户'
       autoFocusFirstInput
       open={props.updateModalVisible}
       onOpenChange={props.onOpenChange}
@@ -33,33 +33,33 @@ const UpdateAccountForm: React.FC<UpdateFormProps> = (props) => {
       width={'20%'}
     >
       <ProFormText
-        name="accountName"
-        label="账户名称"
-        placeholder="名称"
+        name='accountName'
+        label='账户名称'
+        placeholder='名称'
         initialValue={props.value.accountName}
       />
       <ProFormText
-        name="accountDescribe"
-        label="账户描述"
-        placeholder="描述"
+        name='accountDescribe'
+        label='账户描述'
+        placeholder='描述'
         initialValue={props.value.accountDescribe}
       />
       <ProFormMoney
-        name="accountBalance"
-        label="账户余额"
-        placeholder="余额"
+        name='accountBalance'
+        label='账户余额'
+        placeholder='余额'
         initialValue={props.value.accountBalance}
       />
       <ProFormMoney
-        name="accountIncome"
-        label="账户收入"
-        placeholder="收入"
+        name='accountIncome'
+        label='账户收入'
+        placeholder='收入'
         initialValue={props.value.accountIncome}
       />
       <ProFormMoney
-        name="accountExpenditure"
-        label="账户支出"
-        placeholder="支出"
+        name='accountExpenditure'
+        label='账户支出'
+        placeholder='支出'
         initialValue={props.value.accountExpenditure}
       />
     </ModalForm>

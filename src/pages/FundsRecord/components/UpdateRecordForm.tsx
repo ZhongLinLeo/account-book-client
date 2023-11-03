@@ -26,7 +26,6 @@ const layout = {
 };
 
 const UpdateRecordForm: React.FC<UpdateFormProps> = (props) => {
-  console.log(props.value);
   return (
     <ModalForm
       {...layout}
