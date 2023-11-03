@@ -70,6 +70,7 @@ const UpdateRecordForm: React.FC<UpdateFormProps> = (props) => {
         initialValue={props.value.fundsRecordRemark}
       />
       <ProFormSelect
+        showSearch
         name='fundsRecordAccountId'
         label='账户信息'
         placeholder='账户'
@@ -78,6 +79,7 @@ const UpdateRecordForm: React.FC<UpdateFormProps> = (props) => {
         rules={[{ required: true, message: '请选择账户' }]}
       />
       <ProFormSelect
+        showSearch
         name='fundsRecordClassifyId'
         label='分类信息'
         placeholder='分类'
