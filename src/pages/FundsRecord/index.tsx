@@ -40,6 +40,7 @@ const handleAdd = async (fields: FundsRecordResponse) => {
 /**
  * 更新节点
  *
+ * @param fields
  * @param currentRow
  */
 
@@ -199,21 +200,6 @@ const FundsRecordTable: React.FC = () => {
       ],
     },
   ];
-
-  // const { data: accountData1 } = useRequest(accounts);
-  // const accountList1 = accountData1 || [];
-  // const item = accountList1.map((account) => ({
-  //   value: account.accountName,
-  //   label: account.accountDescribe,
-  // }));
-  // console.log(item);
-  // //
-  // // const { classifyData } = useRequest(classifies());
-  // // const classifyList = accountData || [];
-  // // const classifyOptions = classifyList.map((account) => ({
-  // //   value: account.accountId,
-  // //   label: account.accountName,
-  // // }));
 
   return (
     <PageContainer>

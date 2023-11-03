@@ -20,11 +20,17 @@ export type UpdateFormProps = {
   classifyOptions: SelectProps['options'];
 };
 
+const layout = {
+  labelCol: { span: 6 },
+  wrapperCol: { span: 16 },
+};
+
 const UpdateRecordForm: React.FC<UpdateFormProps> = (props) => {
   console.log(props.value);
   return (
     <ModalForm
-      title="创建分类"
+      {...layout}
+      title='创建分类'
       autoFocusFirstInput
       open={props.updateModalVisible}
       onOpenChange={props.onOpenChange}
@@ -32,50 +38,57 @@ const UpdateRecordForm: React.FC<UpdateFormProps> = (props) => {
         destroyOnClose: true,
       }}
       onFinish={props.onFinish}
-      width={'20%'}
+      width={'30%'}
+      layout={'horizontal'}
     >
       <ProFormMoney
-        name="fundsRecordBalance"
-        label="金额"
-        placeholder="金额"
+        name='fundsRecordBalance'
+        label='金额'
+        placeholder='金额'
         initialValue={props.value.fundsRecordBalance}
+        rules={[{ required: true, message: '请输入金额' }]}
       />
       <ProFormDateTimePicker
-        name="fundsRecordTime"
-        label="时间"
-        placeholder="时间"
+        name='fundsRecordTime'
+        label='时间'
+        width={'md'}
+        placeholder='时间'
         initialValue={props.value.fundsRecordTime}
+        rules={[{ required: true, message: '请输入时间' }]}
       />
       <ProFormText
-        name="fundsRecordDescribe"
-        label="记录描述"
-        placeholder="描述"
+        name='fundsRecordDescribe'
+        label='记录描述'
+        placeholder='描述'
         initialValue={props.value.fundsRecordDescribe}
+        rules={[{ required: true, message: '请输入描述' }]}
       />
       <ProFormText
-        name="fundsRecordRemark"
-        label="记录备注"
-        placeholder="备注"
+        name='fundsRecordRemark'
+        label='记录备注'
+        placeholder='备注'
         initialValue={props.value.fundsRecordRemark}
       />
       <ProFormSelect
-        name="fundsRecordAccountId"
-        label="账户信息"
-        placeholder="账户"
+        name='fundsRecordAccountId'
+        label='账户信息'
+        placeholder='账户'
         options={props.accountOptions}
         initialValue={props.value.accountInfo?.accountId}
+        rules={[{ required: true, message: '请选择账户' }]}
       />
       <ProFormSelect
-        name="fundsRecordClassifyId"
-        label="分类信息"
-        placeholder="分类"
+        name='fundsRecordClassifyId'
+        label='分类信息'
+        placeholder='分类'
         options={props.classifyOptions}
         initialValue={props.value.classifyInfo?.classifyId}
+        rules={[{ required: true, message: '请选择分类' }]}
       />
       <ProFormSelect
-        name="fundsUserId"
-        label="记录人"
-        placeholder="记录人"
+        name='fundsUserId'
+        label='记录人'
+        placeholder='记录人'
         initialValue={props.value.fundsUserId}
         options={[
           {
@@ -87,6 +100,7 @@ const UpdateRecordForm: React.FC<UpdateFormProps> = (props) => {
             label: '于奇',
           },
         ]}
+        rules={[{ required: true, message: '请选择记录人' }]}
       />
     </ModalForm>
   );
