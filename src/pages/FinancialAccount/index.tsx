@@ -43,6 +43,7 @@ const handleAdd = async (fields: FinancialAccount) => {
  * 更新节点
  *
  * @param fields
+ * @param currentCard
  */
 const handleUpdate = async (fields: FormValueType, currentCard?: FinancialAccount) => {
   const hide = message.loading('正在更新');
@@ -134,13 +135,13 @@ const FinancialAccountCard: React.FC = () => {
     ],
     content: (
       <ProCard ghost gutter={8}>
-        <ProCard layout="left">
+        <ProCard layout='left'>
           收入:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountIncome}
         </ProCard>
-        <ProCard layout="left">
+        <ProCard layout='left'>
           支出:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountExpenditure}
         </ProCard>
-        <ProCard layout="left">
+        <ProCard layout='left'>
           余额:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountBalance}
         </ProCard>
       </ProCard>
@@ -157,8 +158,8 @@ const FinancialAccountCard: React.FC = () => {
         toolBarRender={() => {
           return [
             <Button
-              type="primary"
-              key="primary"
+              type='primary'
+              key='primary'
               onClick={() => {
                 handleCreateModalVisible(true);
               }}
@@ -167,7 +168,7 @@ const FinancialAccountCard: React.FC = () => {
             </Button>,
           ];
         }}
-        showActions="hover"
+        showActions='hover'
         grid={{ gutter: 16, column: 2 }}
         metas={{
           title: {},
