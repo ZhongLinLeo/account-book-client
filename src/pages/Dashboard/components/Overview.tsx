@@ -1,8 +1,6 @@
+import { FundsOverview } from '@/pages/Dashboard/data';
 import { StatisticCard } from '@ant-design/pro-components';
 import React from 'react/index';
-import { FundsOverview } from '@/pages/Dashboard/data';
-// import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
-// import { Card, Col, Row, Statistic } from 'antd';
 
 const { Statistic } = StatisticCard;
 const { Divider } = StatisticCard;

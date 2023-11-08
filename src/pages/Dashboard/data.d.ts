@@ -11,3 +11,9 @@ export type Overview = {
   income: number;
   expenditure: number;
 };
+
+export type FundsTrend = {
+  fundsRecordDate: string;
+  income?: number;
+  expenditure?: number;
+};
