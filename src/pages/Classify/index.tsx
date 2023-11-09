@@ -153,7 +153,20 @@ const TableList: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <PageContainer
+      title={'分类信息'}
+      extra={
+        <Button
+          type="primary"
+          key="primary"
+          onClick={() => {
+            handleCreateModalVisible(true);
+          }}
+        >
+          <PlusOutlined /> 新建
+        </Button>
+      }
+    >
       <ProTable<ClassifyInfo, TableListPagination>
         // headerTitle='查询表格'
         actionRef={actionRef}
@@ -161,17 +174,9 @@ const TableList: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          <Button
-            type="primary"
-            key="primary"
-            onClick={() => {
-              handleCreateModalVisible(true);
-            }}
-          >
-            <PlusOutlined /> 新建
-          </Button>,
-        ]}
+        pagination={{
+          pageSize: 10,
+        }}
         request={classifies}
         columns={columns}
         options={{ density: false, setting: false, reload: false }}

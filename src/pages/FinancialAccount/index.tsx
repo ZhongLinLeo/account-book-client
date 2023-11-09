@@ -135,13 +135,13 @@ const FinancialAccountCard: React.FC = () => {
     ],
     content: (
       <ProCard ghost gutter={8}>
-        <ProCard layout='left'>
+        <ProCard layout="left">
           收入:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountIncome}
         </ProCard>
-        <ProCard layout='left'>
+        <ProCard layout="left">
           支出:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountExpenditure}
         </ProCard>
-        <ProCard layout='left'>
+        <ProCard layout="left">
           余额:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountBalance}
         </ProCard>
       </ProCard>
@@ -149,26 +149,26 @@ const FinancialAccountCard: React.FC = () => {
   }));
 
   return (
-    <PageContainer>
+    <PageContainer
+      title={'账户信息'}
+      extra={
+        <Button
+          type="primary"
+          key="primary"
+          onClick={() => {
+            handleCreateModalVisible(true);
+          }}
+        >
+          <PlusOutlined /> 新建
+        </Button>
+      }
+    >
       <ProList<FinancialAccount>
         ghost
         itemCardProps={{
           ghost: true,
         }}
-        toolBarRender={() => {
-          return [
-            <Button
-              type='primary'
-              key='primary'
-              onClick={() => {
-                handleCreateModalVisible(true);
-              }}
-            >
-              <PlusOutlined /> 新建
-            </Button>,
-          ];
-        }}
-        showActions='hover'
+        showActions="hover"
         grid={{ gutter: 16, column: 2 }}
         metas={{
           title: {},

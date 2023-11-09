@@ -4,6 +4,7 @@ import { fundsOverview, fundsTrend } from '@/pages/Dashboard/service';
 import { PageContainer } from '@ant-design/pro-layout';
 import React from 'react';
 import { useRequest } from 'umi';
+import { Card, Space } from 'antd';
 
 const Dashboard: React.FC = () => {
   const { data: overview } = useRequest(fundsOverview);
@@ -13,10 +14,20 @@ const Dashboard: React.FC = () => {
   const trendData = trend || [];
 
   return (
-    <PageContainer>
+    <PageContainer title={'分析概览'}>
       {/*  overview */}
       <Overview value={overviewData} />
-      <TrendAnalyze trend={trendData} />
+      <Card style={{ marginTop: 16 }}>
+        <Card style={{ marginTop: 16 }}>
+          <TrendAnalyze trend={trendData} />
+        </Card>
+        <Card style={{ marginTop: 16 }}>
+          <TrendAnalyze trend={trendData} />
+        </Card>
+        <Card style={{ marginTop: 16 }}>
+          <TrendAnalyze trend={trendData} />
+        </Card>
+      </Card>
     </PageContainer>
   );
 };

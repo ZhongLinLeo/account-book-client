@@ -202,25 +202,30 @@ const FundsRecordTable: React.FC = () => {
   ];
 
   return (
-    <PageContainer>
+    <PageContainer
+      title={'流水信息'}
+      extra={
+        <Button
+          type="primary"
+          key="primary"
+          onClick={() => {
+            handleCreateModalVisible(true);
+          }}
+        >
+          <PlusOutlined /> 新建
+        </Button>
+      }
+    >
       <ProTable<FundsRecordResponse, FundsRecordPagination>
         // headerTitle='查询表格'
         actionRef={actionRef}
-        rowKey='key'
+        rowKey="key"
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          <Button
-            type='primary'
-            key='primary'
-            onClick={() => {
-              handleCreateModalVisible(true);
-            }}
-          >
-            <PlusOutlined /> 新建
-          </Button>,
-        ]}
+        pagination={{
+          pageSize: 10,
+        }}
         request={classifies}
         columns={columns}
         options={{ density: false, setting: false, reload: false }}
