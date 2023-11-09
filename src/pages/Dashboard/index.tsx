@@ -35,7 +35,7 @@ const Dashboard: React.FC = () => {
             <ComposeAnalyze compose={expenditureCompose} />
           </ProCard>
           <ProCard title="支出排行">
-            <TopsList top={incomeTop} expenditure={true} />
+            <TopsList top={expenditureTop} expenditure={true} />
           </ProCard>
         </ProCard>
 
@@ -44,7 +44,7 @@ const Dashboard: React.FC = () => {
             <ComposeAnalyze compose={incomeCompose} />
           </ProCard>
           <ProCard title="收入排行">
-            <TopsList top={expenditureTop} expenditure={false} />
+            <TopsList top={incomeTop} expenditure={false} />
           </ProCard>
         </ProCard>
       </ProCard>
