@@ -14,8 +14,8 @@ export type Overview = {
 
 export type FundsTrend = {
   fundsRecordDate: string;
-  income?: number;
-  expenditure?: number;
+  balance?: number;
+  fundsType?: string;
 };
 
 export type FundsCompose = {

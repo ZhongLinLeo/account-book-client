@@ -1,5 +1,5 @@
 import { FundsTrend } from '@/pages/Dashboard/data';
-import { DualAxes } from '@ant-design/plots';
+import { Line } from '@ant-design/plots';
 import React from 'react';
 
 export type TrendProps = {
@@ -8,21 +8,22 @@ export type TrendProps = {
 
 const TrendAnalyze: React.FC<TrendProps> = (props) => {
   const config = {
-    data: [props.trend, props.trend],
+    data: props.trend,
     xField: 'fundsRecordDate',
-    yField: ['income', 'expenditure'],
-    geometryOptions: [
-      {
-        geometry: 'line',
-        color: '#3f8600',
+    yField: 'balance',
+    seriesField: 'fundsType',
+    xAxis: {
+      type: 'time',
+    },
+    color: ['#3f8600', '#cf1322'],
+    yAxis: {
+      label: {
+        // 数值格式化为千分位
+        formatter: (v) => `${v}`.replace(/\d{1,3}(?=(\d{3})+$)/g, (s) => `${s},`),
       },
-      {
-        geometry: 'line',
-        color: '#cf1322',
-      },
-    ],
+    },
   };
 
-  return <DualAxes {...config} />;
+  return <Line {...config} />;
 };
 export default TrendAnalyze;
