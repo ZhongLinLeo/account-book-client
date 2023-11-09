@@ -17,3 +17,24 @@ export type FundsTrend = {
   income?: number;
   expenditure?: number;
 };
+
+export type FundsCompose = {
+  incomeCompose: Compose[];
+  expenditureCompose: Compose[];
+};
+
+export type Compose = {
+  classifyName: string;
+  percent: number;
+};
+
+export type FundsTop = {
+  incomeTops: Top[];
+  expenditureTops: Top[];
+};
+
+export type Top = {
+  fundsRecordBalance: number;
+  fundsRecordTime: Date;
+  fundsRecordDescribe: string;
+};

@@ -7,8 +7,6 @@ export type TrendProps = {
 };
 
 const TrendAnalyze: React.FC<TrendProps> = (props) => {
-  console.log(props.trend);
-
   const config = {
     data: [props.trend, props.trend],
     xField: 'fundsRecordDate',
