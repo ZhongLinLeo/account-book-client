@@ -5,7 +5,9 @@ import {
   EditFilled,
   EyeFilled,
   EyeInvisibleFilled,
+  FrownOutlined,
   PlusOutlined,
+  TransactionOutlined,
 } from '@ant-design/icons';
 import { ProCard, ProList } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-layout';
@@ -65,7 +67,7 @@ const handleUpdate = async (fields: FormValueType, currentCard?: FinancialAccoun
 /**
  * 删除节点
  *
- * @param selectedRows
+ * @param record
  */
 
 const handleRemove = async (record: FinancialAccount) => {
@@ -88,9 +90,11 @@ const handleRemove = async (record: FinancialAccount) => {
 const FinancialAccountCard: React.FC = () => {
   /** 新建窗口的弹窗 */
   const [createModalVisible, handleCreateModalVisible] = useState<boolean>(false);
-  /** 分布更新窗口的弹窗 */
 
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+
+  const [transferModalVisible, handleTransferModalVisible] = useState<boolean>(false);
+  const [repaymentModalVisible, handleRepaymentModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
 
   const [currentCard, setCurrentCard] = useState<FinancialAccount>();
@@ -98,7 +102,7 @@ const FinancialAccountCard: React.FC = () => {
 
   const { run, data, loading } = useRequest(accounts);
 
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const list = data || [];
 
@@ -120,29 +124,19 @@ const FinancialAccountCard: React.FC = () => {
         }}
         style={{ color: 'red' }}
       />,
-      <EyeFilled
-        hidden={visible}
-        onClick={() => {
-          setVisible(!visible);
-        }}
-      />,
-      <EyeInvisibleFilled
-        hidden={!visible}
-        onClick={() => {
-          setVisible(!visible);
-        }}
-      />,
+      <TransactionOutlined hidden={account.accountType == 1} style={{ color: 'green' }} />,
+      <FrownOutlined hidden={account.accountType == 0} />,
     ],
     content: (
       <ProCard ghost gutter={8}>
         <ProCard layout="left">
-          收入:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountIncome}
+          收入:&nbsp;&nbsp;&nbsp;{visible ? account.accountIncome : '********'}
         </ProCard>
         <ProCard layout="left">
-          支出:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountExpenditure}
+          支出:&nbsp;&nbsp;&nbsp;{visible ? account.accountExpenditure : '********'}
         </ProCard>
         <ProCard layout="left">
-          余额:&nbsp;&nbsp;&nbsp;{visible ? '********' : account.accountBalance}
+          余额:&nbsp;&nbsp;&nbsp;{visible ? account.accountBalance : '********'}
         </ProCard>
       </ProCard>
     ),
@@ -151,7 +145,7 @@ const FinancialAccountCard: React.FC = () => {
   return (
     <PageContainer
       title={'账户信息'}
-      extra={
+      extra={[
         <Button
           type="primary"
           key="primary"
@@ -160,8 +154,18 @@ const FinancialAccountCard: React.FC = () => {
           }}
         >
           <PlusOutlined /> 新建
-        </Button>
-      }
+        </Button>,
+        <Button
+          type="primary"
+          key="primary"
+          onClick={() => {
+            setVisible(!visible);
+          }}
+        >
+          <EyeFilled hidden={!visible} />
+          <EyeInvisibleFilled hidden={visible} />
+        </Button>,
+      ]}
     >
       <ProList<FinancialAccount>
         ghost

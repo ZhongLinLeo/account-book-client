@@ -7,6 +7,5 @@ export type FinancialAccount = {
   accountBalance: number;
   accountIncome: number;
   accountExpenditure: number;
+  accountType: 0 | 1;
 };
-
-
