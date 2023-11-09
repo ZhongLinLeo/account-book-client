@@ -1,13 +1,12 @@
+import ComposeAnalyze from '@/pages/Dashboard/components/ComposeAnalyze';
 import Overview from '@/pages/Dashboard/components/Overview';
+import TopsList from '@/pages/Dashboard/components/TopList';
 import TrendAnalyze from '@/pages/Dashboard/components/TrendAnalyze';
-import { fundsCompose, fundsOverview, fundsTrend, fundsTop } from '@/pages/Dashboard/service';
+import { fundsCompose, fundsOverview, fundsTop, fundsTrend } from '@/pages/Dashboard/service';
+import { ProCard } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-layout';
 import React from 'react';
 import { useRequest } from 'umi';
-import { Card, Space } from 'antd';
-import ComposeAnalyze from '@/pages/Dashboard/components/ComposeAnalyze';
-import { ProCard } from '@ant-design/pro-components';
-import TopsList from '@/pages/Dashboard/components/TopList';
 
 const Dashboard: React.FC = () => {
   const { data: overview } = useRequest(fundsOverview);
@@ -36,7 +35,7 @@ const Dashboard: React.FC = () => {
             <ComposeAnalyze compose={expenditureCompose} />
           </ProCard>
           <ProCard title="支出排行">
-            <TopsList top={incomeTop} />
+            <TopsList top={incomeTop} expenditure={true} />
           </ProCard>
         </ProCard>
 
@@ -45,7 +44,7 @@ const Dashboard: React.FC = () => {
             <ComposeAnalyze compose={incomeCompose} />
           </ProCard>
           <ProCard title="收入排行">
-            <TopsList top={expenditureTop} />
+            <TopsList top={expenditureTop} expenditure={false} />
           </ProCard>
         </ProCard>
       </ProCard>

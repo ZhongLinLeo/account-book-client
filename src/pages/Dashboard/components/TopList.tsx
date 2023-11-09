@@ -1,32 +1,44 @@
 import { Top } from '@/pages/Dashboard/data';
-import { Popover, Table, Typography } from 'antd';
+import { Typography } from 'antd';
 
+import type { ProColumns } from '@ant-design/pro-table';
+import { ProTable } from '@ant-design/pro-table';
 import React from 'react';
-import { ProCard } from '@ant-design/pro-components';
-import type { ColumnsType } from 'antd/es/table';
 
 const { Text } = Typography;
 
 export type TopProps = {
   top: Partial<Top[]>;
-  type: boolean;
+  expenditure: boolean;
 };
 
 const TopsList: React.FC<TopProps> = (props) => {
-  const columns: ColumnsType<Top> = [
+  const columns: ProColumns<Top>[] = [
+    {
+      dataIndex: 'index',
+      valueType: 'indexBorder',
+      width: 48,
+    },
     {
       title: '金额',
       dataIndex: 'fundsRecordBalance',
       key: 'fundsRecordBalance',
-      width: '60%',
+      width: '20%',
       render: (_, item) => {
         return (
-          <Text strong type={props.type ? 'danger' : 'success'}>
-            {props.type ? '-' : '+'}
+          <Text strong type={props.expenditure ? 'danger' : 'success'}>
+            {props.expenditure ? '-' : '+'}
             {item.fundsRecordBalance}
           </Text>
         );
       },
+    },
+    {
+      title: '描述',
+      ellipsis: true,
+      dataIndex: 'fundsRecordDescribe',
+      key: 'fundsRecordDescribe',
+      width: '30%',
     },
     {
       title: '时间',
@@ -39,8 +51,10 @@ const TopsList: React.FC<TopProps> = (props) => {
   ];
 
   return (
-    <Table
+    <ProTable<Top>
       showHeader={false}
+      options={{ density: false, setting: false, reload: false }}
+      search={false}
       columns={columns}
       dataSource={props.top}
       size={'small'}

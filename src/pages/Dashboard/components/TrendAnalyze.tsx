@@ -12,9 +12,6 @@ const TrendAnalyze: React.FC<TrendProps> = (props) => {
     xField: 'fundsRecordDate',
     yField: 'balance',
     seriesField: 'fundsType',
-    xAxis: {
-      type: 'time',
-    },
     color: ['#3f8600', '#cf1322'],
     yAxis: {
       label: {
