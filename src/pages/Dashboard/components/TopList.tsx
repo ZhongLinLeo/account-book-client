@@ -1,5 +1,5 @@
 import { Top } from '@/pages/Dashboard/data';
-import { Typography } from 'antd';
+import { Avatar, Typography } from 'antd';
 
 import type { ProColumns } from '@ant-design/pro-table';
 import { ProTable } from '@ant-design/pro-table';
@@ -15,21 +15,18 @@ export type TopProps = {
 const TopsList: React.FC<TopProps> = (props) => {
   const columns: ProColumns<Top>[] = [
     {
-      dataIndex: 'index',
-      valueType: 'indexBorder',
-      width: 48,
-    },
-    {
       title: '金额',
       dataIndex: 'fundsRecordBalance',
       key: 'fundsRecordBalance',
-      width: '20%',
-      render: (_, item) => {
+      width: '30%',
+      render: (_, item, index) => {
         return (
-          <Text strong type={props.expenditure ? 'danger' : 'success'}>
-            {props.expenditure ? '-' : '+'}
-            {item.fundsRecordBalance}
-          </Text>
+          <>
+            <Avatar style={{ backgroundColor: '#108ee9' }}>{index + 1}</Avatar>
+            <Text strong type={props.expenditure ? 'danger' : 'success'}>
+              &nbsp;&nbsp;&nbsp;{props.expenditure ? '-' : '+'} {item.fundsRecordBalance}
+            </Text>
+          </>
         );
       },
     },
@@ -42,6 +39,7 @@ const TopsList: React.FC<TopProps> = (props) => {
     },
     {
       title: '时间',
+      ellipsis: true,
       dataIndex: 'fundsRecordTime',
       key: 'fundsRecordTime',
       render: (_, item) => {
