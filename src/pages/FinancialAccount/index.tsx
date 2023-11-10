@@ -17,7 +17,8 @@ import React, { useRef, useState } from 'react';
 import { useRequest } from 'umi';
 import type { FormValueType } from './components/UpdateAccountForm';
 import type { FinancialAccount } from './data.d';
-import { accounts, addAccount, removeAccount, updateAccount } from './service';
+import { accounts, addAccount, removeAccount, repayment, transfer, updateAccount } from './service';
+import TransferAccountForm from '@/pages/FinancialAccount/components/TransferAccountForm';
 
 const { Paragraph } = Typography;
 
@@ -64,12 +65,56 @@ const handleUpdate = async (fields: FormValueType, currentCard?: FinancialAccoun
     return false;
   }
 };
+
+/**
+ * 转账
+ *
+ * @param fields
+ */
+const handleTransfer = async (fields: FormValueType) => {
+  const hide = message.loading('正在更新');
+
+  try {
+    await transfer({
+      ...fields,
+    });
+    hide();
+    message.success('更新成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('更新失败请重试！');
+    return false;
+  }
+};
+
+/**
+ * 还款
+ *
+ * @param fields
+ */
+const handleRepayment = async (fields: FormValueType) => {
+  const hide = message.loading('还款操作');
+
+  try {
+    await repayment({
+      ...fields,
+    });
+    hide();
+    message.success('还款操作成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('还款操作失败请重试！');
+    return false;
+  }
+};
+
 /**
  * 删除节点
  *
  * @param record
  */
-
 const handleRemove = async (record: FinancialAccount) => {
   const hide = message.loading('正在删除');
   if (!record) return true;
@@ -98,14 +143,19 @@ const FinancialAccountCard: React.FC = () => {
   const actionRef = useRef<ActionType>();
 
   const [currentCard, setCurrentCard] = useState<FinancialAccount>();
-  /** 国际化配置 */
 
-  const { run, data, loading } = useRequest(accounts);
+  const { data: accountData } = useRequest(accounts);
+  const accountList = accountData || [];
+  const accountOptions = accountList.map((account: FinancialAccount) => ({
+    value: account.accountId,
+    label: account.accountName,
+  }));
+
+  const { run, data } = useRequest(accounts);
 
   const [visible, setVisible] = useState(false);
 
   const list = data || [];
-
   const item = list.map((account) => ({
     title: account.accountName,
     description: account.accountDescribe,
@@ -124,8 +174,21 @@ const FinancialAccountCard: React.FC = () => {
         }}
         style={{ color: 'red' }}
       />,
-      <TransactionOutlined hidden={account.accountType == 1} style={{ color: 'green' }} />,
-      <FrownOutlined hidden={account.accountType == 0} />,
+      <TransactionOutlined
+        hidden={account.accountType == 1}
+        style={{ color: 'green' }}
+        onClick={() => {
+          setCurrentCard(account);
+          handleTransferModalVisible(true);
+        }}
+      />,
+      <FrownOutlined
+        hidden={account.accountType == 0}
+        onClick={() => {
+          setCurrentCard(account);
+          handleRepaymentModalVisible(true);
+        }}
+      />,
     ],
     content: (
       <ProCard ghost gutter={8}>
@@ -208,6 +271,19 @@ const FinancialAccountCard: React.FC = () => {
         onOpenChange={handleUpdateModalVisible}
         updateModalVisible={updateModalVisible}
         value={currentCard || {}}
+      />
+      <TransferAccountForm
+        onOpenChange={handleTransferModalVisible}
+        onFinish={async (value) => {
+          const success = await handleTransfer(value, currentCard);
+          if (success) {
+            handleTransferModalVisible(false);
+            run();
+          }
+        }}
+        transferModalVisible={transferModalVisible}
+        value={currentCard}
+        accountOptions={accountOptions}
       />
     </PageContainer>
   );

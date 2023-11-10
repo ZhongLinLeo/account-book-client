@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
-import { FinancialAccount } from './data';
+import { AccountOperate, FinancialAccount } from './data';
 
 /** 获取账户列表 GET /account/list */
 export async function accounts(): Promise<{ data: { list: FinancialAccount[] } }> {
@@ -14,6 +14,24 @@ export async function updateAccount(
   options?: { [key: string]: any },
 ) {
   return request<FinancialAccount>('/api/account/' + data.accountId, {
+    data,
+    method: 'PUT',
+    ...(options || {}),
+  });
+}
+
+/** 转账 PUT /api/account */
+export async function transfer(data: { [key: string]: any }, options?: { [key: string]: any }) {
+  return request<AccountOperate>('/api/account/' + data.accountId + '/transfer', {
+    data,
+    method: 'PUT',
+    ...(options || {}),
+  });
+}
+
+/** 还款 PUT /api/account */
+export async function repayment(data: { [key: string]: any }, options?: { [key: string]: any }) {
+  return request<AccountOperate>('/api/account/' + data.accountId + '/repayment', {
     data,
     method: 'PUT',
     ...(options || {}),

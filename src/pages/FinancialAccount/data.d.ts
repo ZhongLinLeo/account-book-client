@@ -9,3 +9,10 @@ export type FinancialAccount = {
   accountExpenditure: number;
   accountType: 0 | 1;
 };
+
+export type AccountOperate = {
+  accountId: number;
+  targetAccountId: number;
+  sourceAccountId: number;
+  balance: number;
+};
