@@ -42,9 +42,6 @@ const TopsList: React.FC<TopProps> = (props) => {
       ellipsis: true,
       dataIndex: 'fundsRecordTime',
       key: 'fundsRecordTime',
-      render: (_, item) => {
-        return <Text strong>{item.fundsRecordTime}</Text>;
-      },
     },
   ];
 
