@@ -20,8 +20,6 @@ import type { FinancialAccount } from './data.d';
 import { accounts, addAccount, removeAccount, repayment, transfer, updateAccount } from './service';
 import TransferAccountForm from '@/pages/FinancialAccount/components/TransferAccountForm';
 
-const { Paragraph } = Typography;
-
 /**
  * 添加节点
  *

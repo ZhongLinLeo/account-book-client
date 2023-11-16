@@ -33,10 +33,10 @@ const TransferAccountForm: React.FC<TransferFormProps> = (props) => {
     >
       <ProFormText
         name="accountId"
-        label={props.value.accountName}
+        label="来源账户"
         placeholder="名称"
         disabled
-        initialValue={props.value.accountId}
+        initialValue={props.value?.accountName}
       />
       <ProFormSelect
         showSearch
