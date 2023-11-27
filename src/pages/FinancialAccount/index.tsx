@@ -149,6 +149,11 @@ const FinancialAccountCard: React.FC = () => {
     label: account.accountName,
   }));
 
+  const groupByCategory = accountList.groupBy((account) => {
+    return account.accountOwner;
+  });
+  console.log(groupByCategory);
+
   const { run, data } = useRequest(accounts);
 
   const [visible, setVisible] = useState(false);

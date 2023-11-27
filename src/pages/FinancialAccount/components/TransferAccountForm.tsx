@@ -2,7 +2,7 @@ import { ModalForm, ProFormMoney, ProFormSelect } from '@ant-design/pro-componen
 import { ProFormText } from '@ant-design/pro-form';
 import React from 'react';
 import { AccountOperate, FinancialAccount } from '../data';
-import { SelectProps } from 'antd';
+import { SelectProps, Cascader } from 'antd';
 
 export type FormValueType = {
   accountId: number;
@@ -16,6 +16,35 @@ export type TransferFormProps = {
   transferModalVisible: boolean;
   value: Partial<FinancialAccount>;
   accountOptions: SelectProps['options'];
+};
+
+interface Option {
+  value: string;
+  label: string;
+  children?: SelectProps['options'];
+}
+
+const targetOptions = (accounts: FinancialAccount[]) => {
+  const groupBy = (array: FinancialAccount[], func: Function) => {
+    const options: Option[] = [];
+
+    array.forEach((item) => {
+      item.accountOwner;
+      const group = JSON.stringify(func(item));
+      groups[group] = groups[group] || [];
+      groups[group].push(item);
+    });
+
+    return Object.keys(groups).map((group) => {
+      return groups[group];
+    });
+  };
+
+  const optionData = groupBy(accounts, (account: FinancialAccount) => {
+    return account.accountOwner;
+  });
+
+  return optionData;
 };
 
 const TransferAccountForm: React.FC<TransferFormProps> = (props) => {
@@ -38,7 +67,7 @@ const TransferAccountForm: React.FC<TransferFormProps> = (props) => {
         disabled
         initialValue={props.value?.accountName}
       />
-      <ProFormSelect
+      <Cascader
         showSearch
         name="targetAccountId"
         label="目的账户"
