@@ -11,7 +11,7 @@ export type OverviewProps = {
 
 const Overview: React.FC<OverviewProps> = (props) => {
   return (
-    <StatisticCard.Group>
+    <StatisticCard.Group title={'收支概览'}>
       <StatisticCard title="总概览">
         <Statistic
           title="收入"

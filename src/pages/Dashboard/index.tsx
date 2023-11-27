@@ -5,28 +5,66 @@ import TrendAnalyze from '@/pages/Dashboard/components/TrendAnalyze';
 import { fundsCompose, fundsOverview, fundsTop, fundsTrend } from '@/pages/Dashboard/service';
 import { ProCard } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-layout';
-import React from 'react';
+import { Select } from 'antd';
+import React, { useState } from 'react';
 import { useRequest } from 'umi';
 
 const Dashboard: React.FC = () => {
   const { data: overview } = useRequest(fundsOverview);
   const overviewData = overview || {};
 
-  const { data: trend } = useRequest(() => fundsTrend({ trendType: 'YEAR' }));
+  const [trendType, setTrendType] = useState('MONTH');
+
+  const handleTrendTypeChange = (value) => {
+    console.log(value);
+    setTrendType(value);
+  };
+
+  const { data: trend } = useRequest(() => fundsTrend({ trendType: trendType }), {
+    refreshDeps: [trendType],
+  });
   const trendData = trend || [];
 
-  const { data: compose } = useRequest(() => fundsCompose({ trendType: 'YEAR' }));
+  const { data: compose } = useRequest(() => fundsCompose({ trendType: trendType }), {
+    refreshDeps: [trendType],
+  });
   const incomeCompose = compose?.incomeCompose || [];
   const expenditureCompose = compose?.expenditureCompose || [];
 
-  const { data: top } = useRequest(() => fundsTop({ trendType: 'YEAR' }));
+  const { data: top } = useRequest(() => fundsTop({ trendType: trendType }), {
+    refreshDeps: [trendType],
+  });
   const incomeTop = top?.incomeTops || [];
   const expenditureTop = top?.expenditureTops || [];
 
   return (
-    <PageContainer title={'分析概览'}>
+    <PageContainer>
       <Overview value={overviewData} />
-      <ProCard split="horizontal">
+      <ProCard
+        title={'收支分析'}
+        split="horizontal"
+        extra={
+          <Select
+            name="trendType"
+            defaultValue="MONTH"
+            onChange={handleTrendTypeChange}
+            options={[
+              {
+                value: 'YEAR',
+                label: '年',
+              },
+              {
+                value: 'MONTH',
+                label: '月',
+              },
+              {
+                value: 'WEEK',
+                label: '周',
+              },
+            ]}
+          />
+        }
+      >
         <ProCard title="趋势">
           <TrendAnalyze trend={trendData} />
         </ProCard>
