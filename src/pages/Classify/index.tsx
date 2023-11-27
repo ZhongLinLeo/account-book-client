@@ -131,21 +131,23 @@ const TableList: React.FC = () => {
       valueType: 'option',
       render: (_, record) => [
         <Button
+          disabled={record.defaultClassify === 1}
           onClick={() => {
             handleUpdateModalVisible(true);
             setCurrentRow(record);
           }}
           shape={'circle'}
           style={{ border: 'none' }}
-          icon={<EditFilled style={{ color: '#4E89FF' }} />}
+          icon={<EditFilled style={{ color: record.defaultClassify === 1 ? 'grey' : '#4E89FF' }} />}
         />,
         <Button
           onClick={async () => {
             await handleRemove(record);
             actionRef.current?.reloadAndRest?.();
           }}
+          disabled={record.defaultClassify === 1}
           style={{ border: 'none' }}
-          icon={<DeleteFilled style={{ color: 'red' }} />}
+          icon={<DeleteFilled style={{ color: record.defaultClassify === 1 ? 'grey' : 'red' }} />}
           shape={'circle'}
         />,
       ],

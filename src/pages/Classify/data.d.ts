@@ -4,6 +4,9 @@ export type ClassifyInfo = {
   classifyType: number;
   classifyDescribe: string;
   createTime: Date;
+  classifyIcon: string;
+  defaultClassify: number;
+  includeAnalyze: number;
 };
 
 export type TableListPagination = {
