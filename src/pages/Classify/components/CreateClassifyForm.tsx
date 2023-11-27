@@ -5,6 +5,7 @@ import type { ClassifyInfo } from '../data';
 export type FormValueType = {
   classifyName: string;
   classifyType: number;
+  includeAnalyze: number;
   classifyDescribe: string;
 } & Partial<ClassifyInfo>;
 
@@ -40,6 +41,21 @@ const CreateClassifyForm: React.FC<CreateFormProps> = (props) => {
           {
             value: 1,
             label: '收入',
+          },
+        ]}
+      />
+      <ProFormSelect
+        name="includeAnalyze"
+        label="是否分析"
+        placeholder="是否计入分析"
+        options={[
+          {
+            value: 0,
+            label: '计入',
+          },
+          {
+            value: 1,
+            label: '排除',
           },
         ]}
       />

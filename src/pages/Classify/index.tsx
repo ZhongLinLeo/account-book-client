@@ -110,19 +110,17 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: '计入收支分析',
+      title: '分析',
       sorter: false,
       search: false,
       dataIndex: 'includeAnalyze',
       width: '10%',
       valueEnum: {
         0: {
-          text: '不计入',
-          status: 'Error',
+          text: '排除',
         },
         1: {
           text: '计入',
-          status: 'Success',
         },
       },
     },
