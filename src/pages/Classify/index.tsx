@@ -96,7 +96,7 @@ const TableList: React.FC = () => {
       title: '类型',
       dataIndex: 'classifyType',
       hideInForm: true,
-      width: '20%',
+      width: '10%',
       search: false,
       valueEnum: {
         0: {
@@ -105,6 +105,23 @@ const TableList: React.FC = () => {
         },
         1: {
           text: '收入',
+          status: 'Success',
+        },
+      },
+    },
+    {
+      title: '计入收支分析',
+      sorter: false,
+      search: false,
+      dataIndex: 'includeAnalyze',
+      width: '10%',
+      valueEnum: {
+        0: {
+          text: '不计入',
+          status: 'Error',
+        },
+        1: {
+          text: '计入',
           status: 'Success',
         },
       },
@@ -121,7 +138,6 @@ const TableList: React.FC = () => {
       search: false,
       dataIndex: 'createTime',
       valueType: 'dateTime',
-
       width: '30%',
     },
     {
