@@ -64,22 +64,23 @@ const Dashboard: React.FC = () => {
             ]}
           />
         }
+        style={{ marginBlockStart: 8 }}
       >
         <ProCard title="趋势">
           <TrendAnalyze trend={trendData} />
         </ProCard>
-        <ProCard split="vertical" title="支出">
+        <ProCard split="vertical" title="收支构成">
           <ProCard title="支出构成">
             <ComposeAnalyze compose={expenditureCompose} />
           </ProCard>
-          <ProCard title="支出排行">
-            <TopsList top={expenditureTop} expenditure={true} />
+          <ProCard title="收入构成">
+            <ComposeAnalyze compose={incomeCompose} />
           </ProCard>
         </ProCard>
 
-        <ProCard split="vertical" title="收入">
-          <ProCard title="收入构成">
-            <ComposeAnalyze compose={incomeCompose} />
+        <ProCard split="vertical" title="收支排行">
+          <ProCard title="支出排行">
+            <TopsList top={expenditureTop} expenditure={true} />
           </ProCard>
           <ProCard title="收入排行">
             <TopsList top={incomeTop} expenditure={false} />
