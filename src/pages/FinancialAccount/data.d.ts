@@ -1,5 +1,5 @@
 export type FinancialAccount = {
-  accountId: number;
+  accountId: string;
   accountName: string;
   accountDescribe: string;
   accountOwner: string;
