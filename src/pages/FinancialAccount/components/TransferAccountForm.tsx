@@ -1,8 +1,8 @@
-import { ModalForm, ProFormMoney, ProFormSelect } from '@ant-design/pro-components';
+import { ModalForm, ProFormMoney } from '@ant-design/pro-components';
 import { ProFormText } from '@ant-design/pro-form';
+import { Cascader, SelectProps } from 'antd';
 import React from 'react';
 import { AccountOperate, FinancialAccount } from '../data';
-import { SelectProps, Cascader } from 'antd';
 
 export type FormValueType = {
   accountId: number;
@@ -25,32 +25,41 @@ interface Option {
   children?: SelectProps['options'];
 }
 
-const targetOptions = (accounts: FinancialAccount[]) => {
+const targetOptions = (record: FinancialAccount, accounts: FinancialAccount[]) => {
   const constructOption = (account: FinancialAccount) => ({
     value: account.accountOwner,
     label: account.accountOwner,
+    children: [],
   });
 
-  const groupBy = (array: FinancialAccount[], func: Function) => {
-    const options: Option[] = [];
-    array.forEach((item) => {
-      const group = func(item);
-      options[group] = options[group]?.value === group ? options[group] : constructOption;
-      options[group].push(item);
-    });
-
-    return Object.keys(options).map((group) => {
-      return options[group];
-    });
-  };
-
-  return groupBy(accounts, (account: FinancialAccount) => {
-    return account.accountOwner;
+  const constructChildren = (account: FinancialAccount) => ({
+    value: account.accountId,
+    label: account.accountName,
   });
+
+  const options: Option[] = [];
+  accounts.forEach((account) => {
+    if (account.accountType == 0 && account.accountId != record?.accountId) {
+      let accountOwner = account.accountOwner;
+      let exist = options.some((option) => option.value == accountOwner);
+      if (exist) {
+        options.forEach((option) => {
+          if (option.value === accountOwner) {
+            option.children?.push(constructChildren(account));
+          }
+        });
+      } else {
+        let option = constructOption(account);
+        option.children?.push(constructChildren(account));
+        options.push(option);
+      }
+    }
+  });
+  return options;
 };
 
 const TransferAccountForm: React.FC<TransferFormProps> = (props) => {
-  console.log(targetOptions(props.accountList));
+  // let targetOptions = targetOptions(props.value, props.accountList);
 
   return (
     <ModalForm
@@ -76,7 +85,7 @@ const TransferAccountForm: React.FC<TransferFormProps> = (props) => {
         name="targetAccountId"
         label="目的账户"
         placeholder="目的账户"
-        options={props.accountOptions}
+        options={targetOptions(props.value, props.accountList)}
         rules={[{ required: true, message: '请选择目的账户' }]}
       />
       <ProFormMoney name="balance" label="金额" placeholder="转账金额" />
