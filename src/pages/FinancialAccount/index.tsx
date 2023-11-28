@@ -9,16 +9,18 @@ import {
   PlusOutlined,
   TransactionOutlined,
 } from '@ant-design/icons';
-import { ProCard, ProList, ProDescriptions } from '@ant-design/pro-components';
+import { ProList, ProDescriptions } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType } from '@ant-design/pro-table';
-import { Button, Typography, message, Row, Col, Avatar, List, Card } from 'antd';
+import { Button, Typography, message, Avatar, Tag } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useRequest } from 'umi';
 import type { FormValueType } from './components/UpdateAccountForm';
 import type { FinancialAccount } from './data.d';
 import { accounts, addAccount, removeAccount, repayment, transfer, updateAccount } from './service';
 import TransferAccountForm from '@/pages/FinancialAccount/components/TransferAccountForm';
+
+const { Text } = Typography;
 
 /**
  * 添加节点
@@ -149,65 +151,69 @@ const FinancialAccountCard: React.FC = () => {
     label: account.accountName,
   }));
 
-  const { run, data, loading } = useRequest(accounts);
+  const { run, data } = useRequest(accounts);
 
   const [visible, setVisible] = useState(false);
 
   const list = data || [];
-  // const item = list.map((account) => ({
-  //   avatar: <Avatar style={{ backgroundColor: '#108ee9' }}>{account.accountOwner}</Avatar>,
-  //   title: account.accountName,
-  //   description: account.accountDescribe,
-  //   actions: [
-  //     <EditFilled
-  //       onClick={() => {
-  //         setCurrentCard(account);
-  //         handleUpdateModalVisible(true);
-  //       }}
-  //       style={{ color: '#4E89FF' }}
-  //     />,
-  //     <DeleteFilled
-  //       onClick={async () => {
-  //         await handleRemove(account);
-  //         actionRef.current?.reloadAndRest?.();
-  //       }}
-  //       style={{ color: 'red' }}
-  //     />,
-  //     <TransactionOutlined
-  //       hidden={account.accountType == 1}
-  //       style={{ color: 'green' }}
-  //       onClick={() => {
-  //         setCurrentCard(account);
-  //         handleTransferModalVisible(true);
-  //       }}
-  //     />,
-  //     <FrownOutlined
-  //       hidden={account.accountType == 0}
-  //       onClick={() => {
-  //         setCurrentCard(account);
-  //         handleRepaymentModalVisible(true);
-  //       }}
-  //     />,
-  //   ],
-  //   content: (
-  //     <ProDescriptions>
-  //       <div />
-  //       <div />
-  //       <div />
-  //       <ProDescriptions.Item>
-  //         收入:&nbsp;&nbsp;&nbsp;{visible ? account.accountIncome : '********'}
-  //       </ProDescriptions.Item>
-  //       <ProDescriptions.Item>
-  //         支出:&nbsp;&nbsp;&nbsp;{visible ? account.accountExpenditure : '********'}
-  //       </ProDescriptions.Item>
-  //       <ProDescriptions.Item>
-  //         余额:&nbsp;&nbsp;&nbsp;{visible ? account.accountBalance : '********'}
-  //       </ProDescriptions.Item>
-  //     </ProDescriptions>
-  //   ),
-  // }));
-
-  const nullData: Partial<FinancialAccount> = {};
+  const item = list.map((account) => ({
+    avatar: <Avatar style={{ backgroundColor: '#108ee9' }}>{account.accountOwner}</Avatar>,
+    title: (
+      <div>
+        &nbsp;{account.accountName}&nbsp;&nbsp;
+        <Tag color={account.accountType === 0 ? 'green' : 'blue'}>
+          {account.accountType === 0 ? '信用卡' : '储蓄卡'}
+        </Tag>
+      </div>
+    ),
+    actions: [
+      <EditFilled
+        onClick={() => {
+          setCurrentCard(account);
+          handleUpdateModalVisible(true);
+        }}
+        style={{ color: '#4E89FF' }}
+      />,
+      <DeleteFilled
+        onClick={async () => {
+          await handleRemove(account);
+          actionRef.current?.reloadAndRest?.();
+        }}
+        style={{ color: 'red' }}
+      />,
+      <TransactionOutlined
+        hidden={account.accountType == 1}
+        style={{ color: 'green' }}
+        onClick={() => {
+          setCurrentCard(account);
+          handleTransferModalVisible(true);
+        }}
+      />,
+      <FrownOutlined
+        hidden={account.accountType == 0}
+        onClick={() => {
+          setCurrentCard(account);
+          handleRepaymentModalVisible(true);
+        }}
+      />,
+    ],
+    content: (
+      <div style={{ height: 150 }}>
+        <Text>{account.accountDescribe}</Text>
+        <ProDescriptions style={{ position: 'relative', top: 80 }}>
+          <ProDescriptions.Item style={{ position: 'bottom' }}>
+            收入:&nbsp;&nbsp;{visible ? account.accountIncome : '********'}
+          </ProDescriptions.Item>
+          <ProDescriptions.Item>
+            支出:&nbsp;&nbsp;{visible ? account.accountExpenditure : '********'}
+          </ProDescriptions.Item>
+          <ProDescriptions.Item>
+            余额:&nbsp;&nbsp;{visible ? account.accountBalance : '********'}
+          </ProDescriptions.Item>
+        </ProDescriptions>
+      </div>
+    ),
+  }));
 
   return (
     <PageContainer
@@ -234,113 +240,23 @@ const FinancialAccountCard: React.FC = () => {
         </Button>,
       ]}
     >
-      {/*<ProList<FinancialAccount>*/}
-      {/*  ghost*/}
-      {/*  itemCardProps={{*/}
-      {/*    ghost: true,*/}
-      {/*  }}*/}
-      {/*  showActions="hover"*/}
-      {/*  grid={{ gutter: 16, column: 2 }}*/}
-      {/*  metas={{*/}
-      {/*    avatar: {},*/}
-      {/*    title: {},*/}
-      {/*    description: {},*/}
-      {/*    type: {},*/}
-      {/*    content: {},*/}
-      {/*    actions: {*/}
-      {/*      cardActionProps: 'extra',*/}
-      {/*    },*/}
-      {/*  }}*/}
-      {/*  dataSource={item}*/}
-      {/*/>*/}
-
-      <List<Partial<FinancialAccount>>
-        rowKey="id"
-        loading={loading}
-        grid={{
-          gutter: 16,
-          xs: 1,
-          sm: 2,
-          md: 2,
-          lg: 2,
-          xl: 3,
-          xxl: 3,
+      <ProList<FinancialAccount>
+        ghost
+        itemCardProps={{
+          ghost: true,
         }}
-        dataSource={[nullData, ...list]}
-        renderItem={(account) => {
-          if (account && account.accountId) {
-            return (
-              <List.Item key={account.accountId}>
-                <Card
-                  hoverable
-                  // actions={
-                  //
-                  // }
-                  actions={[
-                    <EditFilled
-                      onClick={() => {
-                        setCurrentCard(account);
-                        handleUpdateModalVisible(true);
-                      }}
-                      style={{ color: '#4E89FF' }}
-                    />,
-                    <DeleteFilled
-                      onClick={async () => {
-                        await handleRemove(account);
-                        actionRef.current?.reloadAndRest?.();
-                      }}
-                      style={{ color: 'red' }}
-                    />,
-                    <TransactionOutlined
-                      hidden={account.accountType == 1}
-                      style={{ color: 'green' }}
-                      onClick={() => {
-                        setCurrentCard(account);
-                        handleTransferModalVisible(true);
-                      }}
-                    />,
-                    <FrownOutlined
-                      hidden={account.accountType == 0}
-                      onClick={() => {
-                        setCurrentCard(account);
-                        handleRepaymentModalVisible(true);
-                      }}
-                    />,
-                  ]}
-                >
-                  <Card.Meta
-                    avatar={
-                      <Avatar style={{ backgroundColor: '#108ee9' }}>{account.accountOwner}</Avatar>
-                    }
-                    title={account.accountName}
-                    description={
-                      <ProDescriptions>
-                        <ProDescriptions.Item>
-                          收入:&nbsp;&nbsp;{visible ? account.accountIncome : '******'}
-                        </ProDescriptions.Item>
-                        <ProDescriptions.Item>
-                          支出:&nbsp;&nbsp;{visible ? account.accountExpenditure : '******'}
-                        </ProDescriptions.Item>
-                        <ProDescriptions.Item>
-                          余额:&nbsp;&nbsp;{visible ? account.accountBalance : '******'}
-                        </ProDescriptions.Item>
-                      </ProDescriptions>
-                    }
-                  />
-                </Card>
-              </List.Item>
-            );
-          }
-          return (
-            <List.Item>
-              <Button type="dashed">
-                <PlusOutlined /> 新增产品
-              </Button>
-            </List.Item>
-          );
+        showActions="hover"
+        grid={{ gutter: 16, column: 3 }}
+        metas={{
+          avatar: {},
+          title: {},
+          content: {},
+          actions: {
+            cardActionProps: 'extra',
+          },
         }}
+        dataSource={item}
       />
-
       <CreateAccountForm
         onFinish={async (value) => {
           const success = await handleAdd(value);
