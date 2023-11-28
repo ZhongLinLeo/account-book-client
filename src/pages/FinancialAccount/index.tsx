@@ -161,8 +161,8 @@ const FinancialAccountCard: React.FC = () => {
     title: (
       <div>
         &nbsp;{account.accountName}&nbsp;&nbsp;
-        <Tag color={account.accountType === 0 ? 'green' : 'blue'}>
-          {account.accountType === 0 ? '信用卡' : '储蓄卡'}
+        <Tag color={account.accountType === 0 ? 'blue' : 'green'}>
+          {account.accountType === 0 ? '储蓄卡' : '信用卡'}
         </Tag>
       </div>
     ),
