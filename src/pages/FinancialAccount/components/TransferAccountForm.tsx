@@ -16,6 +16,7 @@ export type TransferFormProps = {
   transferModalVisible: boolean;
   value: Partial<FinancialAccount>;
   accountOptions: SelectProps['options'];
+  accountList: FinancialAccount[];
 };
 
 interface Option {
@@ -25,29 +26,32 @@ interface Option {
 }
 
 const targetOptions = (accounts: FinancialAccount[]) => {
+  const constructOption = (account: FinancialAccount) => ({
+    value: account.accountOwner,
+    label: account.accountOwner,
+  });
+
   const groupBy = (array: FinancialAccount[], func: Function) => {
     const options: Option[] = [];
-
     array.forEach((item) => {
-      item.accountOwner;
-      const group = JSON.stringify(func(item));
-      groups[group] = groups[group] || [];
-      groups[group].push(item);
+      const group = func(item);
+      options[group] = options[group]?.value === group ? options[group] : constructOption;
+      options[group].push(item);
     });
 
-    return Object.keys(groups).map((group) => {
-      return groups[group];
+    return Object.keys(options).map((group) => {
+      return options[group];
     });
   };
 
-  const optionData = groupBy(accounts, (account: FinancialAccount) => {
+  return groupBy(accounts, (account: FinancialAccount) => {
     return account.accountOwner;
   });
-
-  return optionData;
 };
 
 const TransferAccountForm: React.FC<TransferFormProps> = (props) => {
+  console.log(targetOptions(props.accountList));
+
   return (
     <ModalForm
       title="转账操作"

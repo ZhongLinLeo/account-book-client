@@ -293,6 +293,7 @@ const FinancialAccountCard: React.FC = () => {
         transferModalVisible={transferModalVisible}
         value={currentCard}
         accountOptions={accountOptions}
+        accountList={accountList}
       />
       <RepaymentAccountForm
         onOpenChange={handleRepaymentModalVisible}
