@@ -71,7 +71,7 @@ const RepaymentAccountForm: React.FC<TransferFormProps> = (props) => {
       width={'20%'}
     >
       <ProFormText
-        name="accountId"
+        name="accountName"
         label="还款目的账户"
         disabled
         initialValue={props.value?.accountName}

@@ -71,7 +71,7 @@ const TransferAccountForm: React.FC<TransferFormProps> = (props) => {
       width={'20%'}
     >
       <ProFormText
-        name="accountId"
+        name="accountName"
         label="来源账户"
         placeholder="名称"
         disabled

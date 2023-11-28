@@ -274,7 +274,8 @@ const FinancialAccountCard: React.FC = () => {
       <TransferAccountForm
         onOpenChange={handleTransferModalVisible}
         onFinish={async (value) => {
-          const success = await handleTransfer(value, currentCard);
+          value.accountId = currentCard.accountId;
+          const success = await handleTransfer(value);
           if (success) {
             handleTransferModalVisible(false);
             run();
@@ -287,6 +288,7 @@ const FinancialAccountCard: React.FC = () => {
       <RepaymentAccountForm
         onOpenChange={handleRepaymentModalVisible}
         onFinish={async (value) => {
+          value.accountId = currentCard.accountId;
           const success = await handleRepayment(value, currentCard);
           if (success) {
             handleRepaymentModalVisible(false);
