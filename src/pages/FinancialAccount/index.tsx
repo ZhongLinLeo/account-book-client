@@ -19,6 +19,7 @@ import type { FormValueType } from './components/UpdateAccountForm';
 import type { FinancialAccount } from './data.d';
 import { accounts, addAccount, removeAccount, repayment, transfer, updateAccount } from './service';
 import TransferAccountForm from '@/pages/FinancialAccount/components/TransferAccountForm';
+import RepaymentAccountForm from '@/pages/FinancialAccount/components/RepaymentAccountForm';
 
 const { Text } = Typography;
 
@@ -290,6 +291,19 @@ const FinancialAccountCard: React.FC = () => {
           }
         }}
         transferModalVisible={transferModalVisible}
+        value={currentCard}
+        accountOptions={accountOptions}
+      />
+      <RepaymentAccountForm
+        onOpenChange={handleRepaymentModalVisible}
+        onFinish={async (value) => {
+          const success = await handleRepayment(value, currentCard);
+          if (success) {
+            handleRepaymentModalVisible(false);
+            run();
+          }
+        }}
+        repaymentModalVisible={repaymentModalVisible}
         value={currentCard}
         accountOptions={accountOptions}
       />

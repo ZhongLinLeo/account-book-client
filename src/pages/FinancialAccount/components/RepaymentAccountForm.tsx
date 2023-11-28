@@ -13,7 +13,7 @@ export type FormValueType = {
 export type TransferFormProps = {
   onOpenChange: (open: boolean) => void;
   onFinish: (values: FormValueType) => Promise<void>;
-  transferModalVisible: boolean;
+  repaymentModalVisible: boolean;
   value: Partial<FinancialAccount>;
   accountOptions: SelectProps['options'];
 };
@@ -23,7 +23,7 @@ const RepaymentAccountForm: React.FC<TransferFormProps> = (props) => {
     <ModalForm
       title="还款操作"
       autoFocusFirstInput
-      open={props.transferModalVisible}
+      open={props.repaymentModalVisible}
       onOpenChange={props.onOpenChange}
       modalProps={{
         destroyOnClose: true,
@@ -33,10 +33,9 @@ const RepaymentAccountForm: React.FC<TransferFormProps> = (props) => {
     >
       <ProFormText
         name="accountId"
-        label={props.value.accountName}
-        placeholder="名称"
+        label="还款目的账户"
         disabled
-        initialValue={props.value.accountId}
+        initialValue={props.value?.accountName}
       />
       <ProFormSelect
         showSearch
