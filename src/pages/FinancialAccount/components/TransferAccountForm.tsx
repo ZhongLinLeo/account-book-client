@@ -1,6 +1,6 @@
-import { ModalForm, ProFormMoney } from '@ant-design/pro-components';
+import { ModalForm, ProFormMoney, ProFormSelect } from '@ant-design/pro-components';
 import { ProFormText } from '@ant-design/pro-form';
-import { Cascader, SelectProps } from 'antd';
+import { SelectProps } from 'antd';
 import React from 'react';
 import { AccountOperate, FinancialAccount } from '../data';
 
@@ -15,7 +15,6 @@ export type TransferFormProps = {
   onFinish: (values: FormValueType) => Promise<void>;
   transferModalVisible: boolean;
   value: Partial<FinancialAccount>;
-  accountOptions: SelectProps['options'];
   accountList: FinancialAccount[];
 };
 
@@ -59,8 +58,6 @@ const targetOptions = (record: FinancialAccount, accounts: FinancialAccount[]) =
 };
 
 const TransferAccountForm: React.FC<TransferFormProps> = (props) => {
-  // let targetOptions = targetOptions(props.value, props.accountList);
-
   return (
     <ModalForm
       title="转账操作"
@@ -80,7 +77,7 @@ const TransferAccountForm: React.FC<TransferFormProps> = (props) => {
         disabled
         initialValue={props.value?.accountName}
       />
-      <Cascader
+      <ProFormSelect
         showSearch
         name="targetAccountId"
         label="目的账户"

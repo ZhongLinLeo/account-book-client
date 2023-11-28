@@ -1,4 +1,6 @@
 import CreateAccountForm from '@/pages/FinancialAccount/components/CreateAccountForm';
+import RepaymentAccountForm from '@/pages/FinancialAccount/components/RepaymentAccountForm';
+import TransferAccountForm from '@/pages/FinancialAccount/components/TransferAccountForm';
 import UpdateAccountForm from '@/pages/FinancialAccount/components/UpdateAccountForm';
 import {
   DeleteFilled,
@@ -9,17 +11,15 @@ import {
   PlusOutlined,
   TransactionOutlined,
 } from '@ant-design/icons';
-import { ProList, ProDescriptions } from '@ant-design/pro-components';
+import { ProDescriptions, ProList } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType } from '@ant-design/pro-table';
-import { Button, Typography, message, Avatar, Tag } from 'antd';
+import { Avatar, Button, Tag, Typography, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useRequest } from 'umi';
 import type { FormValueType } from './components/UpdateAccountForm';
 import type { FinancialAccount } from './data.d';
 import { accounts, addAccount, removeAccount, repayment, transfer, updateAccount } from './service';
-import TransferAccountForm from '@/pages/FinancialAccount/components/TransferAccountForm';
-import RepaymentAccountForm from '@/pages/FinancialAccount/components/RepaymentAccountForm';
 
 const { Text } = Typography;
 
@@ -142,18 +142,8 @@ const FinancialAccountCard: React.FC = () => {
   const [transferModalVisible, handleTransferModalVisible] = useState<boolean>(false);
   const [repaymentModalVisible, handleRepaymentModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-
   const [currentCard, setCurrentCard] = useState<FinancialAccount>();
-
-  const { data: accountData } = useRequest(accounts);
-  const accountList = accountData || [];
-  const accountOptions = accountList.map((account: FinancialAccount) => ({
-    value: account.accountId,
-    label: account.accountName,
-  }));
-
   const { run, data } = useRequest(accounts);
-
   const [visible, setVisible] = useState(false);
 
   const list = data || [];
@@ -292,8 +282,7 @@ const FinancialAccountCard: React.FC = () => {
         }}
         transferModalVisible={transferModalVisible}
         value={currentCard}
-        accountOptions={accountOptions}
-        accountList={accountList}
+        accountList={list}
       />
       <RepaymentAccountForm
         onOpenChange={handleRepaymentModalVisible}
@@ -306,7 +295,7 @@ const FinancialAccountCard: React.FC = () => {
         }}
         repaymentModalVisible={repaymentModalVisible}
         value={currentCard}
-        accountOptions={accountOptions}
+        accountList={list}
       />
     </PageContainer>
   );
