@@ -8,6 +8,7 @@ export type FormValueType = {
   accountBalance: number;
   accountIncome: number;
   accountOwnershipId: string;
+  accountOwner: string;
   accountExpenditure: number;
 } & Partial<FinancialAccount>;
 
@@ -20,7 +21,7 @@ export type CreateFormProps = {
 const CreateAccountForm: React.FC<CreateFormProps> = (props) => {
   return (
     <ModalForm
-      title='创建账户'
+      title="创建账户"
       autoFocusFirstInput
       open={props.createModalVisible}
       onOpenChange={props.onOpenChange}
@@ -30,13 +31,13 @@ const CreateAccountForm: React.FC<CreateFormProps> = (props) => {
       onFinish={props.onFinish}
       width={'20%'}
     >
-      <ProFormText name='accountName' label='账户名称' placeholder='名称' />
-      <ProFormText name='accountDescribe' label='账户描述' placeholder='描述' />
-      <ProFormMoney name='accountBalance' label='账户余额' placeholder='余额' />
+      <ProFormText name="accountName" label="账户名称" placeholder="名称" />
+      <ProFormText name="accountDescribe" label="账户描述" placeholder="描述" />
+      <ProFormMoney name="accountBalance" label="账户余额" placeholder="余额" />
       <ProFormSelect
-        name='accountOwnershipId'
-        label='账户归属'
-        placeholder='所属'
+        name="accountOwnershipId"
+        label="账户归属"
+        placeholder="所属"
         options={[
           {
             value: '10001',

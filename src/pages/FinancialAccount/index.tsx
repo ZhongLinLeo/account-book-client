@@ -9,10 +9,10 @@ import {
   PlusOutlined,
   TransactionOutlined,
 } from '@ant-design/icons';
-import { ProCard, ProList } from '@ant-design/pro-components';
+import { ProCard, ProList, ProDescriptions } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType } from '@ant-design/pro-table';
-import { Button, Typography, message } from 'antd';
+import { Button, Typography, message, Row, Col } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useRequest } from 'umi';
 import type { FormValueType } from './components/UpdateAccountForm';
@@ -149,17 +149,13 @@ const FinancialAccountCard: React.FC = () => {
     label: account.accountName,
   }));
 
-  const groupByCategory = accountList.groupBy((account) => {
-    return account.accountOwner;
-  });
-  console.log(groupByCategory);
-
   const { run, data } = useRequest(accounts);
 
   const [visible, setVisible] = useState(false);
 
   const list = data || [];
   const item = list.map((account) => ({
+    avatar: account.accountOwner,
     title: account.accountName,
     description: account.accountDescribe,
     actions: [
@@ -194,17 +190,17 @@ const FinancialAccountCard: React.FC = () => {
       />,
     ],
     content: (
-      <ProCard ghost gutter={8}>
-        <ProCard layout="left">
+      <ProDescriptions>
+        <ProDescriptions.Item>
           收入:&nbsp;&nbsp;&nbsp;{visible ? account.accountIncome : '********'}
-        </ProCard>
-        <ProCard layout="left">
+        </ProDescriptions.Item>
+        <ProDescriptions.Item>
           支出:&nbsp;&nbsp;&nbsp;{visible ? account.accountExpenditure : '********'}
-        </ProCard>
-        <ProCard layout="left">
+        </ProDescriptions.Item>
+        <ProDescriptions.Item>
           余额:&nbsp;&nbsp;&nbsp;{visible ? account.accountBalance : '********'}
-        </ProCard>
-      </ProCard>
+        </ProDescriptions.Item>
+      </ProDescriptions>
     ),
   }));
 
@@ -239,8 +235,9 @@ const FinancialAccountCard: React.FC = () => {
           ghost: true,
         }}
         showActions="hover"
-        grid={{ gutter: 16, column: 2 }}
+        grid={{ gutter: 16, column: 3 }}
         metas={{
+          avatar: {},
           title: {},
           description: {},
           type: {},
