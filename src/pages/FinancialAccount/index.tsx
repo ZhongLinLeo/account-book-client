@@ -12,7 +12,7 @@ import {
 import { ProCard, ProList, ProDescriptions } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType } from '@ant-design/pro-table';
-import { Button, Typography, message, Row, Col } from 'antd';
+import { Button, Typography, message, Row, Col, Avatar } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useRequest } from 'umi';
 import type { FormValueType } from './components/UpdateAccountForm';
@@ -155,7 +155,7 @@ const FinancialAccountCard: React.FC = () => {
 
   const list = data || [];
   const item = list.map((account) => ({
-    avatar: account.accountOwner,
+    avatar: <Avatar style={{ backgroundColor: '#108ee9' }}>{account.accountOwner}</Avatar>,
     title: account.accountName,
     description: account.accountDescribe,
     actions: [
@@ -191,6 +191,9 @@ const FinancialAccountCard: React.FC = () => {
     ],
     content: (
       <ProDescriptions>
+        <div />
+        <div />
+        <div />
         <ProDescriptions.Item>
           收入:&nbsp;&nbsp;&nbsp;{visible ? account.accountIncome : '********'}
         </ProDescriptions.Item>
@@ -235,7 +238,7 @@ const FinancialAccountCard: React.FC = () => {
           ghost: true,
         }}
         showActions="hover"
-        grid={{ gutter: 16, column: 3 }}
+        grid={{ gutter: 16, column: 2 }}
         metas={{
           avatar: {},
           title: {},
@@ -243,7 +246,7 @@ const FinancialAccountCard: React.FC = () => {
           type: {},
           content: {},
           actions: {
-            cardActionProps: 'actions',
+            cardActionProps: 'extra',
           },
         }}
         dataSource={item}
