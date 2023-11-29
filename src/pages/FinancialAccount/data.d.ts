@@ -1,3 +1,5 @@
+import { SelectProps } from 'antd';
+
 export type FinancialAccount = {
   accountId: string;
   accountName: string;
@@ -16,3 +18,9 @@ export type AccountOperate = {
   sourceAccountId: number;
   balance: number;
 };
+
+interface Option {
+  value: string;
+  label: string;
+  children?: SelectProps['options'];
+}

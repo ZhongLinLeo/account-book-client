@@ -1,7 +1,7 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
-import { AccountOperate, FinancialAccount } from './data';
+import { AccountOperate, FinancialAccount, Option } from './data';
 
 /** 获取账户列表 GET /account/list */
 export async function accounts(): Promise<{ data: { list: FinancialAccount[] } }> {
@@ -54,3 +54,34 @@ export async function removeAccount(data: { key: number }, options?: { [key: str
     ...(options || {}),
   });
 }
+
+export const allAccountOptions = (accountList: FinancialAccount[]) => {
+  const constructOption = (account: FinancialAccount) => ({
+    value: account.accountOwner,
+    label: account.accountOwner,
+    children: [],
+  });
+
+  const constructChildren = (account: FinancialAccount) => ({
+    value: account.accountId,
+    label: account.accountName,
+  });
+
+  const options: Option[] = [];
+  accountList.forEach((account) => {
+    let accountOwner = account.accountOwner;
+    let exist = options.some((option) => option.value == accountOwner);
+    if (exist) {
+      options.forEach((option) => {
+        if (option.value === accountOwner) {
+          option.children?.push(constructChildren(account));
+        }
+      });
+    } else {
+      let option = constructOption(account);
+      option.children?.push(constructChildren(account));
+      options.push(option);
+    }
+  });
+  return options;
+};

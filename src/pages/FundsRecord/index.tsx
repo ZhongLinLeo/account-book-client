@@ -1,13 +1,12 @@
 import { ClassifyInfo } from '@/pages/Classify/data';
-import { listClassify } from '@/pages/Classify/service';
-import { FinancialAccount } from '@/pages/FinancialAccount/data';
-import { accounts } from '@/pages/FinancialAccount/service';
+import { listClassify, allClassifyOptions } from '@/pages/Classify/service';
+import { accounts, allAccountOptions } from '@/pages/FinancialAccount/service';
 import CreateRecordForm from '@/pages/FundsRecord/components/CreateRecordForm';
 import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Avatar, Button, Popover, Tag, Typography, message } from 'antd';
+import { Avatar, Button, Popover, Tag, Typography, message, SelectProps } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useRequest } from 'umi';
 import type { FormValueType } from './components/UpdateRecordForm';
@@ -96,17 +95,9 @@ const FundsRecordTable: React.FC = () => {
 
   const { data: accountData } = useRequest(accounts);
   const accountList = accountData || [];
-  const accountOptions = accountList.map((account: FinancialAccount) => ({
-    value: account.accountId,
-    label: account.accountName,
-  }));
 
   const { data: classifyData } = useRequest(listClassify);
   const classifyList = classifyData || [];
-  const classifyOptions = classifyList.map((classify: ClassifyInfo) => ({
-    value: classify.classifyId,
-    label: classify.classifyName,
-  }));
 
   const columns: ProColumns<FundsRecordResponse>[] = [
     {
@@ -114,6 +105,7 @@ const FundsRecordTable: React.FC = () => {
       hideInForm: true,
       dataIndex: 'fundsRecordBalance',
       width: '10%',
+      search: false,
       align: 'center',
       render: (_, item) => {
         return (
@@ -144,7 +136,6 @@ const FundsRecordTable: React.FC = () => {
     {
       title: '描述',
       dataIndex: 'fundsRecordDescribe',
-      search: false,
       width: '30%',
     },
     {
@@ -242,8 +233,8 @@ const FundsRecordTable: React.FC = () => {
         }}
         onOpenChange={handleCreateModalVisible}
         createModalVisible={createModalVisible}
-        accountOptions={accountOptions}
-        classifyOptions={classifyOptions}
+        accountOptions={allAccountOptions(accountList)}
+        classifyOptions={allClassifyOptions(classifyList)}
       />
       <UpdateRecordForm
         onFinish={async (value) => {
@@ -259,8 +250,8 @@ const FundsRecordTable: React.FC = () => {
         onOpenChange={handleUpdateModalVisible}
         updateModalVisible={updateModalVisible}
         value={currentRow || {}}
-        accountOptions={accountOptions}
-        classifyOptions={classifyOptions}
+        accountOptions={allAccountOptions(accountList)}
+        classifyOptions={allClassifyOptions(classifyList)}
       />
     </PageContainer>
   );

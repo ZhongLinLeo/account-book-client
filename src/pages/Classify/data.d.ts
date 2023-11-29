@@ -1,3 +1,5 @@
+import { SelectProps } from 'antd';
+
 export type ClassifyInfo = {
   classifyId: string;
   classifyName: string;
@@ -14,3 +16,9 @@ export type TableListPagination = {
   pageSize: number;
   pageNumber: number;
 };
+
+interface ClassifyOptions {
+  value: string;
+  label: string;
+  children?: SelectProps['options'];
+}

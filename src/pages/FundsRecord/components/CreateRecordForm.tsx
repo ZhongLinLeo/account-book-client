@@ -23,7 +23,7 @@ export type CreateFormProps = {
   onOpenChange: (open: boolean) => void;
   onFinish: (values: FormValueType) => Promise<void>;
   createModalVisible: boolean;
-  accountOptions: SelectProps['options'];
+  accountOptions: any;
   classifyOptions: SelectProps['options'];
 };
 
@@ -36,7 +36,7 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
   return (
     <ModalForm
       {...layout}
-      title='记录流水'
+      title="记录流水"
       autoFocusFirstInput
       open={props.createModalVisible}
       onOpenChange={props.onOpenChange}
@@ -48,50 +48,46 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
       layout={'horizontal'}
     >
       <ProFormMoney
-        width='md'
-        name='fundsRecordBalance'
-        label='金额'
-        placeholder='金额'
+        width="md"
+        name="fundsRecordBalance"
+        label="金额"
+        placeholder="金额"
         rules={[{ required: true, message: '请输入金额' }]}
       />
       <ProFormDateTimePicker
         width={'md'}
-        name='fundsRecordTime'
-        label='时间'
-        placeholder='时间'
+        name="fundsRecordTime"
+        label="时间"
+        placeholder="时间"
         rules={[{ required: true, message: '请输入时间' }]}
       />
       <ProFormText
-        name='fundsRecordDescribe'
-        label='记录描述'
-        placeholder='描述'
+        name="fundsRecordDescribe"
+        label="记录描述"
+        placeholder="描述"
         rules={[{ required: true, message: '请输入描述' }]}
       />
-      <ProFormText
-        name='fundsRecordRemark'
-        label='记录备注'
-        placeholder='备注'
-      />
+      <ProFormText name="fundsRecordRemark" label="记录备注" placeholder="备注" />
       <ProFormSelect
         showSearch
-        name='fundsRecordAccountId'
-        label='账户信息'
-        placeholder='账户'
+        name="fundsRecordAccountId"
+        label="账户信息"
+        placeholder="账户"
         options={props.accountOptions}
         rules={[{ required: true, message: '请选择账户' }]}
       />
       <ProFormSelect
         showSearch
-        name='fundsRecordClassifyId'
-        label='分类信息'
-        placeholder='分类'
+        name="fundsRecordClassifyId"
+        label="分类信息"
+        placeholder="分类"
         options={props.classifyOptions}
         rules={[{ required: true, message: '请选择分类' }]}
       />
       <ProFormSelect
-        name='fundsUserId'
-        label='记录人'
-        placeholder='记录人'
+        name="fundsUserId"
+        label="记录人"
+        placeholder="记录人"
         options={[
           {
             value: 10001,

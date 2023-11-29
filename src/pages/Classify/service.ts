@@ -1,8 +1,9 @@
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
-import { ClassifyInfo } from './data';
+import { ClassifyInfo, ClassifyOptions } from './data';
 import { FinancialAccount } from '@/pages/FinancialAccount/data';
+import { SelectProps } from 'antd';
 
 /** 获取分类列表 GET /funds_record_classify/pagination */
 export async function classifies(
@@ -66,3 +67,17 @@ export async function removeClassify(data: { key: number }, options?: { [key: st
     ...(options || {}),
   });
 }
+
+export const allClassifyOptions = (classifyList: ClassifyInfo[]) => {
+  const constructOption = (classify: ClassifyInfo) => ({
+    value: classify.classifyId,
+    label: classify.classifyName,
+  });
+
+  const options: ClassifyOptions[] = [];
+  classifyList.forEach((classify) => {
+    let option = constructOption(classify);
+    options.push(option);
+  });
+  return options;
+};
