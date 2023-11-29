@@ -142,6 +142,7 @@ const FundsRecordTable: React.FC = () => {
     {
       title: '描述',
       dataIndex: 'fundsRecordDescribe',
+      search: false,
       width: '30%',
     },
     {
@@ -160,6 +161,7 @@ const FundsRecordTable: React.FC = () => {
     {
       title: '账户信息',
       dataIndex: 'fundsAccountInfo',
+      search: false,
       width: '20%',
       render: (_, item) => {
         return (
