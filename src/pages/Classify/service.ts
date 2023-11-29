@@ -13,8 +13,12 @@ export async function classifies(
     /** 页面的容量 */
     pageSize?: number;
   },
+  sort: any,
   options?: { [key: string]: any },
 ) {
+  for (const [key, value] of Object.entries(sort)) {
+    params['order'] = value === 'ascend' ? 'ASC' : 'DESC';
+  }
   return request<{
     data: ClassifyInfo[];
     /** 列表的内容总数 */
