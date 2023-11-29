@@ -4,7 +4,7 @@ import { request } from 'umi';
 import { FundsRecordResponse } from './data';
 
 /** 获取记录列表 GET /funds_record/pagination */
-export async function classifies(
+export async function paginationRecords(
   params: {
     /** 当前的页码 */
     pageNumber?: number;

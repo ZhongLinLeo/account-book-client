@@ -12,7 +12,7 @@ import { useRequest } from 'umi';
 import type { FormValueType } from './components/UpdateRecordForm';
 import UpdateRecordForm from './components/UpdateRecordForm';
 import type { FundsRecordPagination, FundsRecordResponse } from './data.d';
-import { addClassify, classifies, removeClassify, updateClassify } from './service';
+import { addClassify, paginationRecords, removeClassify, updateClassify } from './service';
 
 const { Text } = Typography;
 
@@ -124,11 +124,17 @@ const FundsRecordTable: React.FC = () => {
     },
     {
       title: '时间',
+      key: 'fundsRecordTime',
       dataIndex: 'fundsRecordTime',
       sorter: true,
       align: 'center',
       width: '25%',
-      search: false,
+      valueType: 'dateTimeRange',
+      search: {
+        transform: (value) => {
+          return { startTime: value[0], endTime: value[1] };
+        },
+      },
       render: (_, item) => {
         return <Text strong>{item.fundsRecordTime}</Text>;
       },
@@ -212,12 +218,14 @@ const FundsRecordTable: React.FC = () => {
         actionRef={actionRef}
         rowKey="key"
         search={{
-          labelWidth: 120,
+          defaultCollapsed: false,
+          span: 12,
+          labelWidth: 'auto',
         }}
         pagination={{
           pageSize: 10,
         }}
-        request={classifies}
+        request={paginationRecords}
         columns={columns}
         options={{ density: false, setting: false, reload: false }}
       />
