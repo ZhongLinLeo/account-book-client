@@ -188,7 +188,9 @@ const TableList: React.FC = () => {
         actionRef={actionRef}
         rowKey="key"
         search={{
-          labelWidth: 120,
+          defaultCollapsed: false,
+          span: 12,
+          labelWidth: 'auto',
         }}
         pagination={{
           pageSize: 10,
