@@ -34,6 +34,7 @@ const handleAdd = async (fields: ClassifyInfo) => {
  * 更新节点
  *
  * @param fields
+ * @param currentRow
  */
 
 const handleUpdate = async (fields: FormValueType, currentRow?: ClassifyInfo) => {
@@ -56,7 +57,7 @@ const handleUpdate = async (fields: FormValueType, currentRow?: ClassifyInfo) =>
 /**
  * 删除节点
  *
- * @param selectedRows
+ * @param record
  */
 
 const handleRemove = async (record: ClassifyInfo) => {
