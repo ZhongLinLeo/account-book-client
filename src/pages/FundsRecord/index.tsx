@@ -1,12 +1,11 @@
-import { ClassifyInfo } from '@/pages/Classify/data';
-import { listClassify, allClassifyOptions } from '@/pages/Classify/service';
+import { allClassifyOptions, listClassify } from '@/pages/Classify/service';
 import { accounts, allAccountOptions } from '@/pages/FinancialAccount/service';
 import CreateRecordForm from '@/pages/FundsRecord/components/CreateRecordForm';
 import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
 import ProTable from '@ant-design/pro-table';
-import { Avatar, Button, Popover, Tag, Typography, message, SelectProps } from 'antd';
+import { Avatar, Button, Popover, Tag, Typography, message } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useRequest } from 'umi';
 import type { FormValueType } from './components/UpdateRecordForm';
@@ -106,14 +105,14 @@ const FundsRecordTable: React.FC = () => {
       dataIndex: 'fundsRecordBalance',
       width: '10%',
       search: false,
-      align: 'center',
+      align: 'right',
       render: (_, item) => {
         return (
           <Popover content={item.fundsRecordRemark}>
             <Text
               strong
               type={item.classifyInfo.classifyType === 0 ? 'danger' : 'success'}
-              style={{ textAlign: 'center' }}
+              style={{ textAlign: 'right' }}
             >
               {item.classifyInfo.classifyType === 0 ? '-' : '+'}
               {item.fundsRecordBalance}
@@ -216,7 +215,6 @@ const FundsRecordTable: React.FC = () => {
       }
     >
       <ProTable<FundsRecordResponse, FundsRecordPagination>
-        // headerTitle='查询表格'
         actionRef={actionRef}
         rowKey="key"
         search={{

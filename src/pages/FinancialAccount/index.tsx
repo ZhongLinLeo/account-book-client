@@ -193,13 +193,13 @@ const FinancialAccountCard: React.FC = () => {
         <Text>{account.accountDescribe}</Text>
         <ProDescriptions style={{ position: 'relative', top: 80 }}>
           <ProDescriptions.Item style={{ position: 'bottom' }}>
-            收入:&nbsp;&nbsp;{visible ? account.accountIncome : '********'}
+            收入:&nbsp;&nbsp;<Text strong>{visible ? account.accountIncome : '********'}</Text>
           </ProDescriptions.Item>
           <ProDescriptions.Item>
-            支出:&nbsp;&nbsp;{visible ? account.accountExpenditure : '********'}
+            支出:&nbsp;&nbsp;<Text strong>{visible ? account.accountExpenditure : '********'}</Text>
           </ProDescriptions.Item>
           <ProDescriptions.Item>
-            余额:&nbsp;&nbsp;{visible ? account.accountBalance : '********'}
+            余额:&nbsp;&nbsp;<Text strong>{visible ? account.accountBalance : '********'}</Text>
           </ProDescriptions.Item>
         </ProDescriptions>
       </div>
@@ -237,7 +237,7 @@ const FinancialAccountCard: React.FC = () => {
           ghost: true,
         }}
         showActions="hover"
-        grid={{ gutter: 16, column: 3 }}
+        grid={{ gutter: 16, column: 2 }}
         metas={{
           avatar: {},
           title: {},
