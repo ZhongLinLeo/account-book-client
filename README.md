@@ -2,11 +2,11 @@
 
 ## 项目介绍
 
----
-
 用于家庭记账的项目，前后端分离。
 
-后端地址[!https://github.com/ZhongLinLeo/account-book.git]
+[后端地址](https://github.com/ZhongLinLeo/account-book.git)
+
+---
 
 ## 功能介绍
 
@@ -41,3 +41,9 @@
 分类的新建、修改、删除、编辑等功能，可以设置当前分类是否计入收支分析
 
 ## 部署方式
+
+---
+
+## 感谢
+
+本项目是从 [Antd Pro](https://github.com/ant-design/ant-design-pro.git) 改造而来
