@@ -46,6 +46,9 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
       onFinish={props.onFinish}
       width={'30%'}
       layout={'horizontal'}
+      initialValues={{
+        fundsUserId: 10001,
+      }}
     >
       <ProFormMoney
         width="md"
@@ -87,7 +90,6 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
       <ProFormSelect
         name="fundsUserId"
         label="记录人"
-        initialValue={'钟林'}
         placeholder="记录人"
         options={[
           {
