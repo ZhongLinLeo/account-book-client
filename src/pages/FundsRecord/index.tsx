@@ -16,7 +16,7 @@ import { addClassify, paginationRecords, removeClassify, updateClassify } from '
 const { Text } = Typography;
 
 /**
- * 添加节点
+ * 添加
  *
  * @param fields
  */
@@ -36,7 +36,7 @@ const handleAdd = async (fields: FundsRecordResponse) => {
   }
 };
 /**
- * 更新节点
+ * 更新
  *
  * @param fields
  * @param currentRow
@@ -61,7 +61,7 @@ const handleUpdate = async (fields: FormValueType, currentRow?: FundsRecordRespo
 };
 
 /**
- * 删除节点
+ * 删除
  *
  * @param record
  */
@@ -94,9 +94,11 @@ const FundsRecordTable: React.FC = () => {
 
   const { data: accountData } = useRequest(accounts);
   const accountList = accountData || [];
+  const accountOptions = allAccountOptions(accountList);
 
   const { data: classifyData } = useRequest(listClassify);
   const classifyList = classifyData || [];
+  const classifyOptions = allClassifyOptions(classifyList);
 
   const columns: ProColumns<FundsRecordResponse>[] = [
     {
@@ -129,13 +131,20 @@ const FundsRecordTable: React.FC = () => {
       align: 'center',
       width: '25%',
       valueType: 'dateTimeRange',
+      search: false,
+      render: (_, item) => {
+        return <Text strong>{item.fundsRecordTime}</Text>;
+      },
+    },
+    {
+      title: '时间',
+      key: 'fundsRecordTimeSearch',
+      valueType: 'dateRange',
+      hideInTable: true,
       search: {
         transform: (value) => {
           return { startTime: value[0], endTime: value[1] };
         },
-      },
-      render: (_, item) => {
-        return <Text strong>{item.fundsRecordTime}</Text>;
       },
     },
     {
@@ -143,6 +152,12 @@ const FundsRecordTable: React.FC = () => {
       dataIndex: 'fundsRecordDescribe',
       search: false,
       width: '30%',
+    },
+    {
+      title: '关键词',
+      dataIndex: 'recordKeyword',
+      hideInTable: true,
+      search: true,
     },
     {
       title: '分类',
@@ -158,6 +173,17 @@ const FundsRecordTable: React.FC = () => {
       },
     },
     {
+      title: '分类',
+      dataIndex: 'classifyIds',
+      search: true,
+      hideInTable: true,
+      fieldProps: {
+        options: classifyOptions,
+        mode: 'multiple',
+      },
+      valueType: 'select',
+    },
+    {
       title: '账户信息',
       dataIndex: 'fundsAccountInfo',
       search: false,
@@ -170,6 +196,17 @@ const FundsRecordTable: React.FC = () => {
           </>
         );
       },
+    },
+    {
+      title: '账户',
+      dataIndex: 'accountIds',
+      search: true,
+      hideInTable: true,
+      fieldProps: {
+        options: accountOptions,
+        mode: 'multiple',
+      },
+      valueType: 'select',
     },
     {
       title: '操作',
@@ -241,8 +278,8 @@ const FundsRecordTable: React.FC = () => {
         }}
         onOpenChange={handleCreateModalVisible}
         createModalVisible={createModalVisible}
-        accountOptions={allAccountOptions(accountList)}
-        classifyOptions={allClassifyOptions(classifyList)}
+        accountOptions={accountOptions}
+        classifyOptions={classifyOptions}
       />
       <UpdateRecordForm
         onFinish={async (value) => {
@@ -258,8 +295,8 @@ const FundsRecordTable: React.FC = () => {
         onOpenChange={handleUpdateModalVisible}
         updateModalVisible={updateModalVisible}
         value={currentRow || {}}
-        accountOptions={allAccountOptions(accountList)}
-        classifyOptions={allClassifyOptions(classifyList)}
+        accountOptions={accountOptions}
+        classifyOptions={classifyOptions}
       />
     </PageContainer>
   );
