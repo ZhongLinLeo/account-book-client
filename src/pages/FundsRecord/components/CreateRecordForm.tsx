@@ -24,6 +24,7 @@ export type CreateFormProps = {
   onFinish: (values: FormValueType) => Promise<void>;
   createModalVisible: boolean;
   accountOptions: any;
+  userOptions: any;
   classifyOptions: SelectProps['options'];
 };
 
@@ -47,7 +48,7 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
       width={'30%'}
       layout={'horizontal'}
       initialValues={{
-        fundsUserId: 10001,
+        fundsUserId: props.userOptions[0]?.value,
       }}
     >
       <ProFormMoney
@@ -61,6 +62,7 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
         width={'md'}
         name="fundsRecordTime"
         label="时间"
+        initialValue={Date.now()}
         placeholder="时间"
         rules={[{ required: true, message: '请输入时间' }]}
       />
@@ -91,16 +93,7 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
         name="fundsUserId"
         label="记录人"
         placeholder="记录人"
-        options={[
-          {
-            value: 10001,
-            label: '钟林',
-          },
-          {
-            value: 10002,
-            label: '于奇',
-          },
-        ]}
+        options={props.userOptions}
         rules={[{ required: true, message: '请选择记录人' }]}
       />
     </ModalForm>
