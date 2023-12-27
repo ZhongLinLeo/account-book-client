@@ -1,6 +1,7 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { SettingDrawer } from '@ant-design/pro-components';
-import type { RunTimeLayoutConfig } from '@umijs/max';
+import type { RequestConfig, RunTimeLayoutConfig } from '@umijs/max';
+import queryString from 'query-string';
 import defaultSettings from '../config/defaultSettings';
 import logo from '../public/logo.svg';
 import { errorConfig } from './requestErrorConfig';
@@ -78,6 +79,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
  * 它基于 axios 和 ahooks 的 useRequest 提供了一套统一的网络请求和错误处理方案。
  * @doc https://umijs.org/docs/max/request#配置
  */
-export const request = {
+export const request: RequestConfig = {
+  paramsSerializer(params) {
+    return queryString.stringify(params);
+  },
   ...errorConfig,
 };

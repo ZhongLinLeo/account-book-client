@@ -14,8 +14,8 @@ export async function paginationRecords(
   sort: any,
   options?: { [key: string]: any },
 ) {
+  console.log(params);
   for (const [key, value] of Object.entries(sort)) {
-    // params['sortFiled'] = 'funds_record_time';
     params['order'] = value === 'ascend' ? 'ASC' : 'DESC';
   }
   return request<{
