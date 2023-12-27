@@ -2,6 +2,7 @@ import CreateAccountForm from '@/pages/FinancialAccount/components/CreateAccount
 import RepaymentAccountForm from '@/pages/FinancialAccount/components/RepaymentAccountForm';
 import TransferAccountForm from '@/pages/FinancialAccount/components/TransferAccountForm';
 import UpdateAccountForm from '@/pages/FinancialAccount/components/UpdateAccountForm';
+import { constructUserOptions, listUser } from '@/pages/User/service';
 import {
   DeleteFilled,
   EditFilled,
@@ -24,7 +25,7 @@ import { accounts, addAccount, removeAccount, repayment, transfer, updateAccount
 const { Text } = Typography;
 
 /**
- * 添加节点
+ * 添加
  *
  * @param fields
  */
@@ -44,7 +45,7 @@ const handleAdd = async (fields: FinancialAccount) => {
 };
 
 /**
- * 更新节点
+ * 更新
  *
  * @param fields
  * @param currentCard
@@ -112,7 +113,7 @@ const handleRepayment = async (fields: FormValueType) => {
 };
 
 /**
- * 删除节点
+ * 删除
  *
  * @param record
  */
@@ -145,6 +146,10 @@ const FinancialAccountCard: React.FC = () => {
   const [currentCard, setCurrentCard] = useState<FinancialAccount>();
   const { run, data } = useRequest(accounts);
   const [visible, setVisible] = useState(false);
+
+  const { data: userData } = useRequest(listUser);
+  const userList = userData || [];
+  const userOptions = constructUserOptions(userList);
 
   const list = data || [];
   const item = list.map((account) => ({
@@ -258,6 +263,7 @@ const FinancialAccountCard: React.FC = () => {
         }}
         onOpenChange={handleCreateModalVisible}
         createModalVisible={createModalVisible}
+        userOptions={userOptions}
       />
       <UpdateAccountForm
         onFinish={async (value) => {
@@ -267,6 +273,7 @@ const FinancialAccountCard: React.FC = () => {
             run();
           }
         }}
+        userOptions={userOptions}
         onOpenChange={handleUpdateModalVisible}
         updateModalVisible={updateModalVisible}
         value={currentCard || {}}

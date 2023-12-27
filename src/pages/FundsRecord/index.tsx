@@ -1,6 +1,7 @@
 import { allClassifyOptions, listClassify } from '@/pages/Classify/service';
 import { accounts, allAccountOptions } from '@/pages/FinancialAccount/service';
 import CreateRecordForm from '@/pages/FundsRecord/components/CreateRecordForm';
+import { constructUserOptions, listUser } from '@/pages/User/service';
 import { DeleteFilled, EditFilled, PlusOutlined } from '@ant-design/icons';
 import { PageContainer } from '@ant-design/pro-layout';
 import type { ActionType, ProColumns } from '@ant-design/pro-table';
@@ -99,6 +100,10 @@ const FundsRecordTable: React.FC = () => {
   const { data: classifyData } = useRequest(listClassify);
   const classifyList = classifyData || [];
   const classifyOptions = allClassifyOptions(classifyList);
+
+  const { data: userData } = useRequest(listUser);
+  const userList = userData || [];
+  const userOptions = constructUserOptions(userList);
 
   const columns: ProColumns<FundsRecordResponse>[] = [
     {
@@ -279,6 +284,7 @@ const FundsRecordTable: React.FC = () => {
         onOpenChange={handleCreateModalVisible}
         createModalVisible={createModalVisible}
         accountOptions={accountOptions}
+        userOptions={userOptions}
         classifyOptions={classifyOptions}
       />
       <UpdateRecordForm
@@ -295,6 +301,7 @@ const FundsRecordTable: React.FC = () => {
         onOpenChange={handleUpdateModalVisible}
         updateModalVisible={updateModalVisible}
         value={currentRow || {}}
+        userOptions={userOptions}
         accountOptions={accountOptions}
         classifyOptions={classifyOptions}
       />

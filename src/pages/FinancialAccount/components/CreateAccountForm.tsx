@@ -1,4 +1,5 @@
 import { ModalForm, ProFormMoney, ProFormSelect, ProFormText } from '@ant-design/pro-components';
+import { SelectProps } from 'antd';
 import React from 'react';
 import type { FinancialAccount } from '../data';
 
@@ -16,6 +17,7 @@ export type CreateFormProps = {
   onOpenChange: (open: boolean) => void;
   onFinish: (values: FormValueType) => Promise<void>;
   createModalVisible: boolean;
+  userOptions: SelectProps['options'];
 };
 
 const CreateAccountForm: React.FC<CreateFormProps> = (props) => {
@@ -38,16 +40,7 @@ const CreateAccountForm: React.FC<CreateFormProps> = (props) => {
         name="accountOwnershipId"
         label="账户归属"
         placeholder="所属"
-        options={[
-          {
-            value: '10001',
-            label: '钟林',
-          },
-          {
-            value: '10002',
-            label: '于奇',
-          },
-        ]}
+        options={props.userOptions}
       />
     </ModalForm>
   );
