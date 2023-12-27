@@ -1,4 +1,9 @@
-import { ModalForm, ProFormMoney, ProFormSelect } from '@ant-design/pro-components';
+import {
+  ModalForm,
+  ProFormDateTimePicker,
+  ProFormMoney,
+  ProFormSelect,
+} from '@ant-design/pro-components';
 import { ProFormText } from '@ant-design/pro-form';
 import { SelectProps } from 'antd';
 import React from 'react';
@@ -84,6 +89,14 @@ const TransferAccountForm: React.FC<TransferFormProps> = (props) => {
         placeholder="目的账户"
         options={targetOptions(props.value, props.accountList)}
         rules={[{ required: true, message: '请选择目的账户' }]}
+      />
+      <ProFormDateTimePicker
+        width={'md'}
+        name="operateTime"
+        initialValue={Date.now()}
+        label="转账时间"
+        placeholder="转账时间"
+        rules={[{ required: true, message: '请输入转账时间' }]}
       />
       <ProFormMoney name="balance" label="金额" placeholder="转账金额" />
     </ModalForm>
