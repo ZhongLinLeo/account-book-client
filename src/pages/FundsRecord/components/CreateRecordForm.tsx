@@ -49,6 +49,7 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
       layout={'horizontal'}
       initialValues={{
         fundsUserId: props.userOptions[0]?.value,
+        fundsRecordTime: Date.now(),
       }}
     >
       <ProFormMoney
@@ -62,7 +63,6 @@ const CreateRecordForm: React.FC<CreateFormProps> = (props) => {
         width={'md'}
         name="fundsRecordTime"
         label="时间"
-        initialValue={Date.now()}
         placeholder="时间"
         rules={[{ required: true, message: '请输入时间' }]}
       />
