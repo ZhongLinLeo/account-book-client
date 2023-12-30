@@ -7,9 +7,14 @@ import { FundsRecordResponse } from './data';
 export async function paginationRecords(
   params: {
     /** 当前的页码 */
-    pageNumber?: number;
+    current?: number;
     /** 页面的容量 */
     pageSize?: number;
+    classifyIds?: string[];
+    accountIds?: string[];
+    recordKeyword?: string;
+    startTime?: Date;
+    endTime?: Date;
   },
   sort: any,
   options?: { [key: string]: any },
