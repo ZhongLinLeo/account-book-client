@@ -1,3 +1,11 @@
+import { Compose } from '@/pages/Dashboard/data';
+import { Pie } from '@ant-design/plots';
+
+import ComposeByClassify from '@/pages/Dashboard/components/ComposeByClassify';
+import { paginationRecords } from '@/pages/FundsRecord/service';
+import React, { useState } from 'react';
+import { useRequest } from 'umi';
+
 export type ComposeProps = {
   compose: Partial<Compose[]>;
 };

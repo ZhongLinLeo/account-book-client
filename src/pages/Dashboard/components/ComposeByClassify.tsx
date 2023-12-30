@@ -1,3 +1,11 @@
+import { Compose, Top } from '@/pages/Dashboard/data';
+import { FundsRecordResponse } from '@/pages/FundsRecord/data';
+import { paginationRecords } from '@/pages/FundsRecord/service';
+import { ProColumns } from '@ant-design/pro-table';
+import { Drawer } from 'antd';
+import React from 'react';
+import { useRequest } from 'umi';
+
 export type ComposeByClassifyProps = {
   composeByClassify: Partial<FundsRecordResponse[]>;
   composeInfo: Compose;
