@@ -26,6 +26,7 @@ export type FundsCompose = {
 export type Compose = {
   classifyName: string;
   percent: number;
+  classifyIds: string[];
 };
 
 export type FundsTop = {
